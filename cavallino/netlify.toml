@@ -1,0 +1,10 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+# Deployment notes:
+# 1. Move /server/create-checkout-session.js to /netlify/functions/create-checkout-session.js
+# 2. Run `npm install stripe` at the repo root (Netlify installs functions deps automatically
+#    if a package.json with "stripe" as a dependency exists at the repo root).
+# 3. Set environment variables in the Netlify dashboard (see create-checkout-session.js comments).
+# 4. Push to GitHub and connect the repo in Netlify, or run `netlify deploy --prod`.
