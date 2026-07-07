@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cavallino Logbook — The Service Ledger Your Car Deserves</title>
+<meta name="description" content="Track service history, maintenance schedules, and provenance for your exotic — then export a clean report when it's time to sell.">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Source+Sans+3:wght@400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#191714; --surface:#221F1B; --ink:#EDE6D6; --ink-dim:#9A9183;
+    --hairline:#3B3530; --oxblood:#6E1F24; --oxblood-bright:#8C2A30; --brass:#B08D57;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:'Source Sans 3',sans-serif;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{font-family:'Fraunces',serif;font-weight:500;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 24px;}
+  a{color:var(--brass);text-decoration:none;}
+
+  nav{display:flex;justify-content:space-between;align-items:center;padding:24px 0;border-bottom:1px solid var(--hairline);}
+  .logo{display:flex;align-items:center;gap:10px;font-size:18px;}
+  .logo svg{width:24px;height:30px;}
+  .navlinks a{margin-left:24px;font-size:14px;color:var(--ink-dim);}
+  .navlinks a:hover{color:var(--ink);}
+
+  .hero{padding:90px 0 70px;text-align:center;border-bottom:1px solid var(--hairline);position:relative;}
+  .hero .eyebrow{font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--brass);margin-bottom:18px;}
+  .hero h1{font-size:48px;line-height:1.15;margin:0 0 18px;max-width:760px;margin-left:auto;margin-right:auto;}
+  .hero p.sub{font-size:17px;color:var(--ink-dim);max-width:540px;margin:0 auto 34px;}
+  .cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+  .btn{display:inline-block;padding:14px 28px;border-radius:2px;font-size:14px;letter-spacing:0.04em;text-transform:uppercase;}
+  .btn.brass{background:var(--brass);color:#1c1a17;font-weight:600;}
+  .btn.ghost{border:1px solid var(--hairline);color:var(--ink);}
+  .btn.brass:hover{background:#c39d62;}
+  .btn.ghost:hover{border-color:var(--brass);}
+
+  .odo-mock{
+    margin:50px auto 0; max-width:680px; border:1px solid var(--hairline); border-radius:2px;
+    background:var(--surface); padding:28px; text-align:left;
+  }
+  .odo-row{display:flex;justify-content:space-between;border-bottom:1px solid var(--hairline);padding:12px 0;font-size:13.5px;}
+  .odo-row:last-child{border-bottom:none;}
+  .odo-row .tag{color:var(--ink-dim);}
+  .pill{font-size:11px;padding:3px 9px;border-radius:20px;font-family:'JetBrains Mono',monospace;}
+  .pill.good{background:rgba(122,148,113,0.15);color:#7A9471;border:1px solid rgba(122,148,113,0.3);}
+  .pill.warn{background:rgba(201,154,75,0.15);color:#C99A4B;border:1px solid rgba(201,154,75,0.3);}
+  .pill.danger{background:rgba(162,68,56,0.18);color:#D88C7D;border:1px solid rgba(162,68,56,0.4);}
+
+  .section{padding:80px 0;border-bottom:1px solid var(--hairline);}
+  .section h2{font-size:30px;margin:0 0 12px;}
+  .section .lede{color:var(--ink-dim);max-width:560px;font-size:15.5px;margin-bottom:46px;}
+
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  .feat{border:1px solid var(--hairline);border-radius:2px;padding:26px;background:var(--surface);}
+  .feat .num{font-family:'JetBrains Mono',monospace;color:var(--brass);font-size:13px;margin-bottom:14px;}
+  .feat h3{font-size:18px;margin:0 0 10px;}
+  .feat p{font-size:14px;color:var(--ink-dim);line-height:1.55;margin:0;}
+
+  .quote-block{background:var(--surface);border:1px solid var(--hairline);border-radius:2px;padding:40px;text-align:center;}
+  .quote-block p{font-family:'Fraunces',serif;font-size:22px;line-height:1.5;max-width:640px;margin:0 auto 16px;}
+  .quote-block .who{color:var(--ink-dim);font-size:13px;}
+
+  .pricing{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+  .price-card{border:1px solid var(--hairline);border-radius:2px;padding:32px;background:var(--surface);}
+  .price-card.featured{border-color:var(--brass);}
+  .price-card h3{font-size:20px;margin:0 0 6px;}
+  .price-card .price{font-family:'JetBrains Mono',monospace;font-size:30px;color:var(--brass);margin:10px 0 18px;}
+  .price-card ul{list-style:none;padding:0;margin:0 0 22px;font-size:14px;color:var(--ink-dim);line-height:2;}
+  .price-card ul li::before{content:"— ";color:var(--brass);}
+
+  footer{padding:40px 0;text-align:center;color:var(--ink-dim);font-size:12.5px;}
+
+  @media(max-width:760px){
+    .grid3,.pricing{grid-template-columns:1fr;}
+    .hero h1{font-size:34px;}
+    .navlinks{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <nav>
+    <div class="logo">
+      <svg viewBox="0 0 40 48" fill="none"><rect x="1" y="1" width="38" height="46" rx="1" stroke="#B08D57" stroke-width="1.2"/><line x1="20" y1="6" x2="20" y2="42" stroke="#3B3530" stroke-width="1"/><circle cx="20" cy="24" r="5.5" stroke="#B08D57" stroke-width="1.2"/><path d="M20 18 L20 30 M14 24 L26 24" stroke="#6E1F24" stroke-width="1.3"/></svg>
+      Cavallino Logbook
+    </div>
+    <div class="navlinks">
+      <a href="#features">Features</a>
+      <a href="#pricing">Pricing</a>
+      <a href="index.html">Open App</a>
+    </div>
+  </nav>
+</div>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="eyebrow">For owners of prancing-horse marques &amp; their kin</div>
+    <h1>Every wrench turn, every mile, in one private ledger.</h1>
+    <p class="sub">A logbook built for cars that punish neglect and reward documentation. Track service intervals by model, log every visit to the specialist, and export a clean provenance report the day you decide to sell.</p>
+    <div class="cta-row">
+      <a class="btn brass" href="index.html">Open the Logbook — Free</a>
+      <a class="btn ghost" href="#features">See how it works</a>
+    </div>
+
+    <div class="odo-mock">
+      <div class="odo-row"><span>Major service (valves, belts)</span><span class="pill warn">Due soon</span></div>
+      <div class="odo-row"><span>Timing belt replacement</span><span class="pill good">On track</span></div>
+      <div class="odo-row"><span>Clutch inspection</span><span class="pill danger">Overdue</span></div>
+      <div class="odo-row"><span>Brake fluid flush</span><span class="pill good">Logged</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="section" id="features">
+  <div class="wrap">
+    <h2>Built around how these cars actually get serviced</h2>
+    <p class="lede">Not a generic car app with your model name slapped on it. Maintenance templates for classic V8s, classic V12s, modern naturally-aspirated, and modern turbo eras — because a 308 and an SF90 have nothing in common on a service bay floor.</p>
+    <div class="grid3">
+      <div class="feat">
+        <div class="num">01</div>
+        <h3>Model-aware schedules</h3>
+        <p>Preloaded intervals by era so you're not guessing whether it's time for belts, clutch, or a major service.</p>
+      </div>
+      <div class="feat">
+        <div class="num">02</div>
+        <h3>A real service ledger</h3>
+        <p>Date, mileage, cost, shop, notes — searchable history for every car in your garage, stored privately on your device.</p>
+      </div>
+      <div class="feat">
+        <div class="num">03</div>
+        <h3>Provenance on demand</h3>
+        <p>Originality checklist plus full service history, exported as a clean PDF the moment you need it for a sale or auction listing.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="wrap">
+    <div class="quote-block">
+      <p>"Buyers pay for documented history. A logbook that turns into a PDF in thirty seconds is worth more than the leather portfolio I used to carry around."</p>
+      <div class="who">— Independent specialist mechanic, 20+ years on classic Italian V8s and V12s</div>
+    </div>
+  </div>
+</div>
+
+<div class="section" id="pricing" style="border-bottom:none;">
+  <div class="wrap">
+    <h2>Free to log. Pro to document.</h2>
+    <p class="lede">Track every car and every service entry for free, forever. Upgrade when you're ready to turn that history into something a buyer — or an insurer — takes seriously.</p>
+    <div class="pricing">
+      <div class="price-card">
+        <h3>Free</h3>
+        <div class="price">$0</div>
+        <ul>
+          <li>Unlimited cars in your garage</li>
+          <li>Full service log with photos &amp; notes</li>
+          <li>Model-aware maintenance schedules</li>
+          <li>Offline-first, installs as an app</li>
+        </ul>
+        <a class="btn ghost" href="index.html" style="width:100%;text-align:center;display:block;">Start logging</a>
+      </div>
+      <div class="price-card featured">
+        <h3>Pro</h3>
+        <div class="price">$7<span style="font-size:14px;color:var(--ink-dim);">/mo</span></div>
+        <ul>
+          <li>Everything in Free</li>
+          <li>Originality &amp; provenance checklist</li>
+          <li>One-click PDF provenance report</li>
+          <li>Priority feature requests</li>
+        </ul>
+        <a class="btn brass" href="index.html" style="width:100%;text-align:center;display:block;">Go Pro</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="wrap">
+  Cavallino Logbook is an independent product and is not affiliated with, endorsed by, or sponsored by any automobile manufacturer. Your data stays on your device.
+</footer>
+
+</body>
+</html>
