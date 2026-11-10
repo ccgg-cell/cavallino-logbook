@@ -15,6 +15,8 @@ jobs:
         run: node --check specialist-center.js
       - name: Check Pre-Purchase Inspection JavaScript syntax
         run: node --check prepurchase-inspection.js
+      - name: Check inspection photo evidence JavaScript syntax
+        run: node --check inspection-photo-evidence.js
       - name: Run app integration smoke checks
         run: node tests/app-integration.test.js
       - name: Run Pre-Purchase Inspection regression tests
