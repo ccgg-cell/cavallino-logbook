@@ -13,4 +13,7 @@ assert.ok(api.groups.reduce((n,g)=>n+g[1].length,0)>=20,"checklist should cover 
 assert.deepEqual(Array.from(api.ratings),["not_inspected","good","monitor","attention","not_applicable"]);
 assert.equal(values.has("cavallino_v2"),false,"PPI module must not touch Garage storage");
 assert.equal(values.has("cavallino_specialist_center_v1"),false,"PPI module must not touch Specialist Center storage");
+const valid={version:1,items:[{id:"ppi-1",vehicle:"Ferrari 360",date:"2026-11-10",checks:[{key:"0-0",rating:"good",notes:"",evidence:""}]}]};
+assert.equal(api.validBackup(valid),true,"well-formed PPI backup should validate");
+assert.equal(api.validBackup({version:1,items:[{id:"bad",checks:[{rating:"unknown"}]}]}),false,"malformed PPI backup should be rejected");
 console.log("Pre-Purchase Inspection regression tests passed.");
