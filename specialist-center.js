@@ -52,9 +52,10 @@
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
   function validImport(obj) {
+    const textFields = ["id","title","scope","category","type","status","summary","source","updated"];
     return !!obj && obj.version === 1 && Array.isArray(obj.items) && Array.isArray(obj.records) &&
-      obj.items.every(x => x && typeof x.title === "string" && x.title.trim() && typeof x.summary === "string" && x.summary.trim()) &&
-      obj.records.every(x => x && typeof x.notes === "string" && x.notes.trim());
+      obj.items.every(x => x && textFields.every(k => typeof x[k] === "string") && x.id.trim() && x.title.trim() && x.summary.trim()) &&
+      obj.records.every(x => x && ["vehicle","date","odo","area","notes"].every(k => typeof x[k] === "string") && x.notes.trim());
   }
   function render() {
     const root = el("specialistCenterContent"); if (!root) return;
