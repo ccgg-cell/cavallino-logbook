@@ -10,6 +10,7 @@
     {id:"sc-002",title:"Keep evidence with every maintenance record",category:"Documentation",scope:"All models",type:"Specialist process",status:"General guidance",summary:"Record date, odometer, workshop, technician, work performed, parts and part numbers where known, invoices, photographs, test results and any follow-up recommendations.",source:"Cavallino Logbook documentation standard.",updated:"2026-11-10"},
     {id:"sc-003",title:"Separate factory requirements from specialist recommendations",category:"Service planning",scope:"All models",type:"Editorial standard",status:"General guidance",summary:"Label each maintenance item as factory-published, campaign/recall, legal requirement, or independent specialist recommendation. Do not present an estimate or common practice as a factory interval.",source:"Cavallino Logbook editorial and verification standard.",updated:"2026-11-10"}
   ];
+  let queryText = "", selectedCategory = "";
   let data;
   try { data = JSON.parse(localStorage.getItem(STORE)) || {}; } catch (_) { data = {}; }
   if (!Array.isArray(data.items)) data.items = seed.slice();
@@ -47,13 +48,15 @@
         <div id="scRecords"></div>
       </div>`;
     const list = el("scItems");
-    const search = (el("scSearch").value || "").toLowerCase();
-    const category = el("scCategory").value;
+    el("scSearch").value = queryText;
+    el("scCategory").value = selectedCategory;
+    const search = queryText.toLowerCase();
+    const category = selectedCategory;
     const items = data.items.filter(x => (!category || x.category === category) && (!search || [x.title,x.scope,x.category,x.summary,x.source,x.type].join(" ").toLowerCase().includes(search)));
     list.innerHTML = items.length ? items.map(x => `<article class="sc-item"><div class="sc-item-head"><strong>${esc(x.title)}</strong><span class="pill pill-none">${esc(x.status || "Needs verification")}</span></div><div class="sc-meta">${esc(x.scope || "All models")} · ${esc(x.category)} · ${esc(x.type)}</div><p>${esc(x.summary)}</p><div class="sc-source">Source: ${esc(x.source || "Not supplied")} · Updated: ${esc(x.updated || "—")}</div></article>`).join("") : '<div class="empty"><h3>No matching notes</h3><p>Try another search or add a new knowledge note.</p></div>';
     el("scRecords").innerHTML = data.records.length ? '<h3>Saved inspection notes</h3>' + data.records.slice().reverse().map(r => `<article class="sc-item"><strong>${esc(r.vehicle)} — ${esc(r.area)}</strong><div class="sc-meta">${esc(r.date)} · ${esc(r.odo || "Odometer not entered")}</div><p>${esc(r.notes)}</p></article>`).join("") : "";
-    el("scSearch").oninput = render;
-    el("scCategory").onchange = render;
+    el("scSearch").oninput = () => { queryText = el("scSearch").value; render(); };
+    el("scCategory").onchange = () => { selectedCategory = el("scCategory").value; render(); };
     el("scAdd").onclick = () => {
       const title=el("scTitle").value.trim(), summary=el("scSummary").value.trim();
       if(!title || !summary){ alert("Please enter a title and note summary."); return; }
