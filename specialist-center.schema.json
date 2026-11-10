@@ -77,6 +77,10 @@
         "updated": {
           "type": "string",
           "format": "date"
+        },
+        "sourceUrl": {
+          "type": "string",
+          "format": "uri"
         }
       }
     },
