@@ -1,0 +1,45 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "title":"Cavallino Logbook Pre-Purchase Inspection Backup",
+  "type":"object",
+  "additionalProperties":false,
+  "required":["version","items"],
+  "properties":{
+    "version":{"const":1},
+    "items":{"type":"array","items":{"$ref":"#/$defs/report"}}
+  },
+  "$defs":{
+    "report":{
+      "type":"object",
+      "required":["id","vehicle","date","overall","checks"],
+      "properties":{
+        "id":{"type":"string","minLength":1},
+        "vehicle":{"type":"string","minLength":1},
+        "year":{"type":"string"},
+        "vin":{"type":"string"},
+        "market":{"type":"string"},
+        "variant":{"type":"string"},
+        "odo":{"type":"string"},
+        "date":{"type":"string","format":"date"},
+        "inspector":{"type":"string"},
+        "seller":{"type":"string"},
+        "overall":{"type":"string"},
+        "summary":{"type":"string"},
+        "signoff":{"type":"string"},
+        "checks":{"type":"array","items":{"$ref":"#/$defs/check"}}
+      },
+      "additionalProperties":true
+    },
+    "check":{
+      "type":"object",
+      "required":["key","rating","notes","evidence"],
+      "properties":{
+        "key":{"type":"string"},
+        "rating":{"enum":["not_inspected","good","monitor","attention","not_applicable"]},
+        "notes":{"type":"string"},
+        "evidence":{"type":"string"}
+      },
+      "additionalProperties":false
+    }
+  }
+}
