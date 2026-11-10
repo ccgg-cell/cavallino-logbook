@@ -1,6 +1,11 @@
 # Cavallino Logbook — Specialist Center
 
 ## What this adds
+The current app also includes owner-facing recordkeeping tools:
+- Expanded Service Log entries for parts/fluids, invoice references, record basis and workshop follow-up notes.
+- Edit and delete actions for service entries, plus CSV export for the selected vehicle.
+- Full local JSON backup and restore covering Garage/service history, Specialist Center notes/records and Pre-Purchase inspections with local photo evidence. Restore validates the backup and requires confirmation because it replaces the current browser's app data.
+- Owner-defined maintenance reminders with date and/or odometer targets. These are personal planning entries, not factory service intervals.
 The Specialist Center is integrated as a separate tab in the existing single-page app. It provides:
 - Search and category filtering without losing keyboard focus.
 - User-entered knowledge notes with a source title, optional HTTP(S) source link, and an explicit unverified status.
