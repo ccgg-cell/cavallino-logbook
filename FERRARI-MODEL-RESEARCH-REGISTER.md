@@ -12,7 +12,7 @@ Every proposed entry must include:
 - Confidence and unresolved applicability questions.
 - Reviewer name/organization for safety-critical or procedural content.
 
-Prefer Ferrari TechInfo and the applicable owner/workshop documentation for factory specifications. Use NHTSA for U.S. safety recalls, investigations and complaints; these are not a substitute for Ferrari's own campaign lookup or a vehicle's repair history. Do not reproduce copyrighted factory manual pages or proprietary procedures without permission.
+Prefer Ferrari TechInfo and the applicable owner/workshop documentation for factory specifications. Ferrari's TechInfo materials describe VIN/model-based access to workshop procedures, wiring diagrams, technical bulletins, campaign information, maintenance and parts information; subscription/access conditions apply. Ferrari also provides a VIN campaign lookup. Use NHTSA for U.S. safety recalls, investigations and complaints; NHTSA explicitly notes that its VIN lookup does not show completed recalls, some recent recalls, recalls older than 15 years, some specialty-manufacturer recalls, manufacturer service campaigns or international recalls. Neither database alone establishes a vehicle's complete repair history. Do not reproduce copyrighted factory manual pages or proprietary procedures without permission.
 
 ## Initial model coverage queue
 
@@ -21,12 +21,18 @@ Prefer Ferrari TechInfo and the applicable owner/workshop documentation for fact
 | 308 | Not researched | Exact owner manual by variant/year; Ferrari TechInfo; specialist sources |
 | 328 | Not researched | Exact owner manual; Ferrari TechInfo; specialist sources |
 | 348 | Not researched | Exact owner manual; Ferrari TechInfo; specialist sources |
-| F355 | Not researched | Exact owner manual; Ferrari TechInfo; campaign/recall records; specialist sources |
-| 360 Modena/Spider | Not researched | Exact owner manual; Ferrari TechInfo; campaign/recall records |
+| F355 | Initial secondary-source inspection prompts entered; factory/VIN verification pending | Exact owner/workshop documentation; Ferrari campaign lookup; specialist review |
+| 360 Modena/Spider | Historical campaign screening note and secondary-source inspection prompts entered; individual VIN status pending | Ferrari TechInfo and campaign system; exact owner/workshop documentation; specialist review |
 | F430/Scuderia | Not researched | Exact owner manual; Ferrari TechInfo; campaign/recall records |
 | 458 Italia/Spider/Speciale | Not researched | Exact owner manual; Ferrari TechInfo; campaign/recall records |
 | 488 GTB/Spider/Pista | Not researched | Exact owner manual; Ferrari TechInfo; campaign/recall records |
 | Roma | Not researched | Exact owner manual; Ferrari TechInfo; campaign/recall records |
+
+## Current research notes in the app
+
+The F355 and 360 starter entries are inspection prompts, not factory service instructions:
+- F355: reported valve-guide/oil-consumption concerns; exhaust-manifold/catalyst inspection; timing-belt history and scope verification. These are based on secondary buyer-guide sources and require individual specialist assessment.
+- 360: historical Ferrari North America Technical Information Bulletin 1232 / Service Campaign 97 screening clue; clutch/F1-system history and diagnostics; suspension ball-joint condition. The bulletin copy's engine/VIN range is not a substitute for current Ferrari VIN/campaign verification.
 
 ## Candidate entry worksheet
 
