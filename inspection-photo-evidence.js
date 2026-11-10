@@ -69,11 +69,13 @@
       queue();
     });
     if (save) save.addEventListener("click", () => {
+      const beforeIds = new Set((readDB()?.items || []).map(item => item.id));
       if (!staged.length) return;
       setTimeout(() => {
         const db = readDB();
         if (!db || !db.items.length) return;
-        const target = db.items[db.items.length - 1];
+        const target = db.items.slice().reverse().find(item => !beforeIds.has(item.id));
+        if (!target) return;
         const existing = Array.isArray(target.photos) ? target.photos : [];
         if (existing.length + staged.length > MAX) {
           alert("This report already has the maximum number of photos. Remove some before adding more.");
@@ -89,7 +91,7 @@
           alert("The browser could not store these photos. Export a backup and try fewer or smaller images.");
         }
       }, 0);
-    });
+    }, true);
     queue();
   }
   const original = window.renderPrePurchaseInspection;
