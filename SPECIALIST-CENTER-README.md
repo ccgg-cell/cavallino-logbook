@@ -80,3 +80,7 @@ These are labelled secondary-source research or historical bulletin-copy referen
 - PPI photo attachments are stored in the same browser-local PPI backup as the inspection report. Images are resized in-browser and limited to 8 per report; browser storage quotas still apply. There is no cloud sync, authentication, audit trail, specialist approval workflow or automatic VIN decoding.
 - PPI checklist is a general documentation framework, not a Ferrari factory checklist or certification. Model-specific inspection procedures must be reviewed and added only with verified source evidence.
 - The existing app's maintenance schedule templates are separate from this knowledge module and should not be treated as factory schedules unless independently verified for the exact vehicle.
+
+## Ferrari Model Encyclopedia
+
+The Specialist Center now includes a searchable first-edition model encyclopedia for the 308, 328, 348, F355, 360, F430, 458, 488 and Roma. Profiles summarize model-family identity, notable variants, identification questions and inspection research prompts, with links to external sources. Model-year spans are approximate reference ranges; confirm the individual VIN, build date, market, options and factory documentation before applying technical guidance. The encyclopedia does not publish unverified factory intervals, torque values, fluids or repair procedures.
