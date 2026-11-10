@@ -1,7 +1,7 @@
 // Cavallino Logbook — Service Worker
 // Caches the app shell so it works offline and installs as a real PWA.
 
-const CACHE_NAME = 'cavallino-logbook-v6';
+const CACHE_NAME = 'cavallino-logbook-v7';
 const ASSETS = [
   './',
   './index.html',
