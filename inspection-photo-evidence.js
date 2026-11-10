@@ -26,7 +26,22 @@
           const ctx = canvas.getContext("2d");
           if (!ctx) return reject(new Error("Image processing is unavailable."));
           ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-          resolve({ name: file.name.slice(0, 180), caption: "", dataUrl: canvas.toDataURL("image/jpeg", 0.72) });
+          let dataUrl = "";
+          for (const quality of [0.72, 0.62, 0.52, 0.42]) {
+            dataUrl = canvas.toDataURL("image/jpeg", quality);
+            if (dataUrl.length <= 900000) break;
+          }
+          if (dataUrl.length > 900000) {
+            const smaller = document.createElement("canvas");
+            smaller.width = Math.max(1, Math.round(canvas.width * 0.72));
+            smaller.height = Math.max(1, Math.round(canvas.height * 0.72));
+            const smallCtx = smaller.getContext("2d");
+            if (!smallCtx) return reject(new Error("Image processing is unavailable."));
+            smallCtx.drawImage(canvas, 0, 0, smaller.width, smaller.height);
+            dataUrl = smaller.toDataURL("image/jpeg", 0.48);
+          }
+          if (dataUrl.length > 900000) return reject(new Error(file.name + " is too detailed to store safely. Try a smaller image."));
+          resolve({ name: file.name.slice(0, 180), caption: "", dataUrl });
         };
         img.src = reader.result;
       };
