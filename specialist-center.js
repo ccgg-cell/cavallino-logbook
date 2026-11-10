@@ -132,5 +132,4 @@
     };
   }
   window.renderSpecialistCenter=render;
-  document.addEventListener("DOMContentLoaded",render);
 })();
