@@ -15,5 +15,10 @@ assert.equal(values.has("cavallino_v2"),false,"PPI module must not touch Garage 
 assert.equal(values.has("cavallino_specialist_center_v1"),false,"PPI module must not touch Specialist Center storage");
 const valid={version:1,items:[{id:"ppi-1",vehicle:"Ferrari 360",date:"2026-11-10",checks:[{key:"0-0",rating:"good",notes:"",evidence:""}]}]};
 assert.equal(api.validBackup(valid),true,"well-formed PPI backup should validate");
+valid.items[0].photos=[{name:"front.jpg",caption:"Front quarter",dataUrl:"data:image/jpeg;base64,QUJD"}];
+assert.equal(api.validBackup(valid),true,"PPI backup with a valid local photo should validate");
+valid.items[0].photos[0].dataUrl="https://example.com/photo.jpg";
+assert.equal(api.validBackup(valid),false,"remote photo URLs should be rejected in imported backups");
+delete valid.items[0].photos;
 assert.equal(api.validBackup({version:1,items:[{id:"bad",checks:[{rating:"unknown"}]}]}),false,"malformed PPI backup should be rejected");
 console.log("Pre-Purchase Inspection regression tests passed.");

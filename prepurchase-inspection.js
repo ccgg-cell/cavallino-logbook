@@ -18,7 +18,7 @@ let db={version:1,items:[]};
 try{const x=JSON.parse(localStorage.getItem(KEY)||"null");if(x&&x.version===1&&Array.isArray(x.items))db=x;}catch(e){}
 const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 function save(){try{localStorage.setItem(KEY,JSON.stringify(db));return true;}catch(e){alert("Could not save. Export a backup and check browser storage.");return false;}}
-function validBackup(o){return !!o&&o.version===1&&Array.isArray(o.items)&&o.items.every(r=>r&&typeof r.id==="string"&&typeof r.vehicle==="string"&&typeof r.date==="string"&&Array.isArray(r.checks)&&r.checks.every(c=>c&&typeof c.key==="string"&&ratings.includes(c.rating)&&typeof c.notes==="string"&&typeof c.evidence==="string"));}
+function validBackup(o){return !!o&&o.version===1&&Array.isArray(o.items)&&o.items.every(r=>r&&typeof r.id==="string"&&typeof r.vehicle==="string"&&typeof r.date==="string"&&Array.isArray(r.checks)&&r.checks.every(c=>c&&typeof c.key==="string"&&ratings.includes(c.rating)&&typeof c.notes==="string"&&typeof c.evidence==="string")&&(r.photos===undefined||(Array.isArray(r.photos)&&r.photos.length<=8&&r.photos.every(p=>p&&typeof p.name==="string"&&typeof p.caption==="string"&&typeof p.dataUrl==="string"&&p.dataUrl.length<=900000&&/^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(p.dataUrl)))));}
 function renderList(){
  const box=document.getElementById("ppiSaved");if(!box)return;
  box.innerHTML=db.items.length?db.items.slice().reverse().map(r=>'<article class="sc-item"><div class="sc-item-head"><strong>'+esc(r.year)+' '+esc(r.vehicle)+' — '+esc(r.date)+'</strong><span class="pill pill-none">'+esc(r.overall)+'</span></div><div class="sc-meta">VIN: '+esc(r.vin||"Not entered")+' · Odometer: '+esc(r.odo||"Not entered")+' · Inspector: '+esc(r.inspector||"Not entered")+'</div><p>'+esc(r.summary||"No summary.")+'</p><button class="btn btn-ghost btn-sm" data-print="'+esc(r.id)+'">Print report</button> <button class="btn btn-ghost btn-sm" data-delete="'+esc(r.id)+'">Delete</button></article>').join(""):'<p class="sc-meta">No saved inspections yet.</p>';
@@ -34,6 +34,7 @@ function printReport(id){
   g[1].forEach((label,i)=>{const c=r.checks.find(x=>x.key===gi+"-"+i)||{};html+='<tr><td>'+esc(label)+'</td><td>'+esc(labels[c.rating]||"Not inspected")+'</td><td>'+esc(c.notes)+'</td><td>'+esc(c.evidence)+'</td></tr>';});
   html+='</table>';
  });
+ if(Array.isArray(r.photos)&&r.photos.length){html+='<h2>Photo evidence</h2><div>';r.photos.forEach(p=>{html+='<figure style="display:inline-block;width:30%;vertical-align:top;margin:1%"><img src="'+esc(p.dataUrl)+'" style="width:100%;height:auto"><figcaption>'+esc(p.caption||p.name)+'</figcaption></figure>';});html+='</div>';}
  html+='<div class="note"><b>Important:</b> This is a recording template, not a substitute for a qualified Ferrari specialist examination. Ratings reflect only observations entered. Verify model-specific procedures, specifications, campaign status and safety-critical findings for the exact VIN, year, market and variant. “Not inspected” does not mean satisfactory.</div><p><b>Inspector sign-off:</b> '+esc(r.signoff)+'</p><script>window.onload=()=>window.print();</script></body></html>';
  w.document.write(html);w.document.close();
 }
