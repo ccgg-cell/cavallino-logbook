@@ -8,6 +8,7 @@ const sw = fs.readFileSync("sw.js", "utf8");
 const specialist = fs.readFileSync("specialist-center.js", "utf8");
 const ppi = fs.readFileSync("prepurchase-inspection.js", "utf8");
 const photos = fs.readFileSync("inspection-photo-evidence.js", "utf8");
+const serviceHistory = fs.readFileSync("service-history-enhancements.js", "utf8");
 
 const tabs = [...html.matchAll(/class="tab[^"]*"[^>]*data-view="([^"]+)"/g)].map(m => m[1]);
 assert.ok(tabs.length >= 6, "the app should expose its core and specialist tabs");
@@ -33,8 +34,13 @@ assert.match(photos, /cavallino_ppi_v1/, "photo evidence must use the PPI storag
 assert.match(photos, /MAX = 8/, "photo evidence must enforce an attachment limit");
 assert.match(photos, /dataUrl\.length <= 900000/, "photo evidence must cap image size before local storage");
 assert.match(photos, /dataUrl\.length > 900000/, "oversized photos must be rejected");
+assert.match(serviceHistory, /invoiceRef/, "service history should preserve invoice references");
+assert.match(serviceHistory, /followup/, "service history should capture follow-up recommendations");
+assert.match(serviceHistory, /function exportCSV/, "service history should support CSV export");
+assert.match(serviceHistory, /function editRecord/, "service records should be editable");
+assert.match(serviceHistory, /function deleteRecord/, "service records should be deletable");
 
-for (const asset of ["./index.html", "./manifest.json", "./specialist-center.js", "./prepurchase-inspection.js", "./inspection-photo-evidence.js"]) {
+for (const asset of ["./index.html", "./manifest.json", "./specialist-center.js", "./prepurchase-inspection.js", "./inspection-photo-evidence.js", "./service-history-enhancements.js"]) {
   assert.ok(sw.includes("'" + asset + "'"), "service worker must cache " + asset);
 }
 assert.match(specialist, /cavallino_specialist_center_v1/, "Specialist Center must use its isolated storage key");
