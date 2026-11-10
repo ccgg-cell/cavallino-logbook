@@ -22,21 +22,26 @@ The app now includes a general PPI recording template with identity/provenance, 
 
 | Model family | Research status | First source targets |
 |---|---|---|
-| 308 | Not researched | Exact owner manual by variant/year; Ferrari TechInfo; specialist sources |
-| 328 | Not researched | Exact owner manual; Ferrari TechInfo; specialist sources |
-| 348 | Not researched | Exact owner manual; Ferrari TechInfo; specialist sources |
+| 308 | Secondary-source inspection prompts entered; factory/VIN verification pending | Exact owner manual by variant/year; Ferrari TechInfo; specialist sources |
+| 328 | Secondary-source inspection prompts entered; factory/VIN verification pending | Exact owner manual; Ferrari TechInfo; specialist sources |
+| 348 | Secondary-source inspection prompts entered; factory/VIN verification pending | Exact owner manual; Ferrari TechInfo; specialist sources |
 | F355 | Initial secondary-source inspection prompts entered; factory/VIN verification pending | Exact owner/workshop documentation; Ferrari campaign lookup; specialist review |
 | 360 Modena/Spider | Historical campaign screening note and secondary-source inspection prompts entered; individual VIN status pending | Ferrari TechInfo and campaign system; exact owner/workshop documentation; specialist review |
-| F430/Scuderia | Not researched | Exact owner manual; Ferrari TechInfo; campaign/recall records |
-| 458 Italia/Spider/Speciale | Not researched | Exact owner manual; Ferrari TechInfo; campaign/recall records |
-| 488 GTB/Spider/Pista | Not researched | Exact owner manual; Ferrari TechInfo; campaign/recall records |
-| Roma | Not researched | Exact owner manual; Ferrari TechInfo; campaign/recall records |
+| F430/Scuderia | Secondary-source inspection prompts entered; factory/VIN verification pending | Exact owner manual; Ferrari TechInfo; campaign/recall records |
+| 458 Italia/Spider/Speciale | Secondary-source inspection prompts entered; factory/VIN verification pending | Exact owner manual; Ferrari TechInfo; campaign/recall records |
+| 488 GTB/Spider/Pista | Secondary-source inspection prompts entered; factory/VIN verification pending | Exact owner manual; Ferrari TechInfo; campaign/recall records |
+| Roma | Secondary-source inspection prompt and NHTSA recall reference entered; factory/VIN verification pending | Exact owner manual; Ferrari TechInfo; campaign/recall records |
 
 ## Current research notes in the app
 
-The F355 and 360 starter entries are inspection prompts, not factory service instructions:
+The starter entries across the 308, 328, 348, F355, 360, F430, 458, 488 and Roma are inspection prompts, not factory service instructions:
 - F355: reported valve-guide/oil-consumption concerns; exhaust-manifold/catalyst inspection; timing-belt history and scope verification. These are based on secondary buyer-guide sources and require individual specialist assessment.
+- 328/348: documented belt-service history, body/chassis condition, gearbox behavior and electrical/climate-control inspection.
 - 360: historical Ferrari North America Technical Information Bulletin 1232 / Service Campaign 97 screening clue; clutch/F1-system history and diagnostics; suspension ball-joint condition. The bulletin copy's engine/VIN range is not a substitute for current Ferrari VIN/campaign verification.
+- F430: exhaust-system condition and F1 hydraulic/clutch diagnostics.
+- 458: VIN/campaign verification, DCT diagnostic scan/hot road test and interior control condition.
+- 488: turbo-system assessment, DCT diagnostics, brake/tire condition and campaign history.
+- Roma: battery/electrical function checks and VIN confirmation for NHTSA recall 22V-536.
 
 ## Candidate entry worksheet
 
