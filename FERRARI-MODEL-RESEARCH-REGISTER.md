@@ -70,3 +70,8 @@ Copy this block for each proposed item:
 - NHTSA datasets and API documentation: https://www.nhtsa.gov/nhtsa-datasets-and-apis
 
 NHTSA warns its API is not intended for bulk VIN lookups. Keep any future recall integration user-initiated, rate-limited and transparent about coverage.
+
+
+## Model encyclopedia — first edition
+
+A searchable in-app encyclopedia has been added for the nine initial model families: 308, 328, 348, F355, 360, F430, 458, 488 and Roma. It records broad production-era context, major body/trim variants, identity/applicability checks, and evidence-linked inspection prompts. Dates are reference ranges only; market, build date, VIN and variant can change applicability. This is not a substitute for Ferrari factory documentation.
