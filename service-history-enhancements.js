@@ -103,7 +103,7 @@
         if (entry.basis && entry.basis !== "Not specified") meta += '<div class="td-note"><b>Basis:</b> ' + esc(entry.basis) + '</div>';
         if (entry.followup) meta += '<div class="td-note"><b>Follow-up:</b> ' + esc(entry.followup) + '</div>';
         if (meta) cell.insertAdjacentHTML("beforeend", meta);
-        cell.insertAdjacentHTML("beforeend", '<div class="ledger-actions"><button class="btn btn-ghost btn-sm" onclick="CavallinoServiceHistory.edit(\\'' + esc(entry.id) + '\\')">Edit record</button><button class="btn btn-ghost btn-sm" onclick="CavallinoServiceHistory.remove(\\'' + esc(entry.id) + '\\')">Delete</button></div>');
+        cell.insertAdjacentHTML("beforeend", '<div class="ledger-actions"><button class="btn btn-ghost btn-sm" onclick="CavallinoServiceHistory.edit(\'' + esc(entry.id) + '\\')">Edit record</button><button class="btn btn-ghost btn-sm" onclick="CavallinoServiceHistory.remove(\\'' + esc(entry.id) + '\\')">Delete</button></div>');
       });
       var header = root.querySelector(".panel-top");
       if (header && !header.querySelector("[data-csv-export]")) {
