@@ -1,0 +1,19 @@
+name: Validate Cavallino Logbook
+on:
+  pull_request:
+  push:
+    branches: [main, feature/specialist-knowledge-center]
+jobs:
+  static-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check Specialist Center JavaScript syntax
+        run: node --check specialist-center.js
+      - name: Validate Specialist Center JSON schema syntax
+        run: python -m json.tool specialist-center.schema.json > /dev/null
+      - name: Check patch whitespace
+        run: git diff --check
