@@ -13,6 +13,8 @@ jobs:
           node-version: 22
       - name: Check Specialist Center JavaScript syntax
         run: node --check specialist-center.js
+      - name: Check Pre-Purchase Inspection JavaScript syntax
+        run: node --check prepurchase-inspection.js
       - name: Run Specialist Center storage regression tests
         run: node tests/specialist-center.test.js
       - name: Validate Specialist Center JSON schema syntax
