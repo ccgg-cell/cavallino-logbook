@@ -31,7 +31,8 @@ assert.match(html, /window\.renderPrePurchaseInspection\(\)/, "app render cycle 
 assert.match(ppi, /if\(typeof document!==\"undefined\"\)render\(\)/, "PPI module must render when loaded after app initialization");
 assert.match(photos, /cavallino_ppi_v1/, "photo evidence must use the PPI storage namespace");
 assert.match(photos, /MAX = 8/, "photo evidence must enforce an attachment limit");
-assert.match(photos, /toDataURL\("image\/jpeg", 0\.72\)/, "photo evidence must compress images before local storage");
+assert.match(photos, /dataUrl\.length <= 900000/, "photo evidence must cap image size before local storage");
+assert.match(photos, /dataUrl\.length > 900000/, "oversized photos must be rejected");
 
 for (const asset of ["./index.html", "./manifest.json", "./specialist-center.js", "./prepurchase-inspection.js", "./inspection-photo-evidence.js"]) {
   assert.ok(sw.includes("'" + asset + "'"), "service worker must cache " + asset);
