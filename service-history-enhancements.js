@@ -5,12 +5,6 @@
 (function () {
   "use strict";
   var KEY = "cavallino_v2";
-  var fields = [
-    ["s-parts", "Parts / fluids / part numbers", "Record only documented details, quantities and part numbers."],
-    ["s-invoice", "Invoice / document reference", "Invoice number or your own file reference."],
-    ["s-basis", "Record basis", ""],
-    ["s-followup", "Recommended follow-up", "Record the workshop's recommendation and any stated due date or mileage."]
-  ];
   function read() { try { return JSON.parse(localStorage.getItem(KEY) || "null"); } catch (e) { return null; } }
   function write(db) { try { localStorage.setItem(KEY, JSON.stringify(db)); return true; } catch (e) { alert("Could not save this change. Export a backup and check browser storage."); return false; } }
   function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
@@ -103,7 +97,9 @@
         if (entry.basis && entry.basis !== "Not specified") meta += '<div class="td-note"><b>Basis:</b> ' + esc(entry.basis) + '</div>';
         if (entry.followup) meta += '<div class="td-note"><b>Follow-up:</b> ' + esc(entry.followup) + '</div>';
         if (meta) cell.insertAdjacentHTML("beforeend", meta);
-        cell.insertAdjacentHTML("beforeend", '<div class="ledger-actions"><button class="btn btn-ghost btn-sm" onclick="CavallinoServiceHistory.edit(\'' + esc(entry.id) + '\\')">Edit record</button><button class="btn btn-ghost btn-sm" onclick="CavallinoServiceHistory.remove(\\'' + esc(entry.id) + '\\')">Delete</button></div>');
+        cell.insertAdjacentHTML("beforeend", '<div class="ledger-actions"><button class="btn btn-ghost btn-sm" data-history-edit="' + esc(entry.id) + '">Edit record</button><button class="btn btn-ghost btn-sm" data-history-delete="' + esc(entry.id) + '">Delete</button></div>');
+        cell.querySelector("[data-history-edit]").onclick = function () { editRecord(entry.id); };
+        cell.querySelector("[data-history-delete]").onclick = function () { deleteRecord(entry.id); };
       });
       var header = root.querySelector(".panel-top");
       if (header && !header.querySelector("[data-csv-export]")) {
