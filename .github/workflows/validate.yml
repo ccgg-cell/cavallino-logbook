@@ -13,6 +13,8 @@ jobs:
           node-version: 22
       - name: Check Specialist Center JavaScript syntax
         run: node --check specialist-center.js
+      - name: Run Specialist Center storage regression tests
+        run: node tests/specialist-center.test.js
       - name: Validate Specialist Center JSON schema syntax
         run: python -m json.tool specialist-center.schema.json > /dev/null
       - name: Check patch whitespace
