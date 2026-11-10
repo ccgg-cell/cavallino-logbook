@@ -40,7 +40,7 @@
       '<div class="sc-item" style="display:inline-block;vertical-align:top;width:170px;margin:5px">' +
       '<img src="' + p.dataUrl + '" alt="Inspection evidence" style="width:100%;height:100px;object-fit:cover;border-radius:6px">' +
       '<div class="sc-meta">' + p.name.replace(/[&<>"]/g, "") + '</div>' +
-      '<input data-photo-caption="' + i + '" maxlength="160" placeholder="Caption / location">' +
+      '<input data-photo-caption="' + i + '" maxlength="160" placeholder="Caption / location" value="' + p.caption.replace(/[&<>\"]/g, "") + '">' +
       '<button type="button" class="btn btn-ghost btn-sm" data-photo-remove="' + i + '">Remove</button></div>'
     ).join("");
     box.querySelectorAll("[data-photo-caption]").forEach(el => el.oninput = () => { staged[Number(el.dataset.photoCaption)].caption = el.value; });
