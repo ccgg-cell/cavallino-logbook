@@ -55,5 +55,6 @@ function render(){
  renderList();
 }
 window.renderPrePurchaseInspection=render;
+render();
 if(typeof module!=="undefined"&&module.exports)module.exports={groups,ratings};
 })();
