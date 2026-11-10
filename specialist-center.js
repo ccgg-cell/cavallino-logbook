@@ -23,12 +23,21 @@
   if (!Array.isArray(data.items)) data.items = [];
   if (!Array.isArray(data.records)) data.records = [];
   const knownIds = new Set(data.items.map(x => x && x.id).filter(Boolean));
-  seed.forEach(item => { if (!knownIds.has(item.id)) data.items.push(item); });
+  let seedsAdded = false;
+  seed.forEach(item => {
+    if (!knownIds.has(item.id)) {
+      data.items.push(item);
+      knownIds.add(item.id);
+      seedsAdded = true;
+    }
+  });
   data.items = data.items.map(x => ({sourceUrl:"", ...x}));
   function persist() {
     try { localStorage.setItem(STORE, JSON.stringify(data)); return true; }
     catch (_) { alert("The browser could not save this data. Export a backup and check available browser storage."); return false; }
   }
+  // Persist first-install seeds and safe additive migrations immediately.
+  if (seedsAdded) persist();
   function esc(v) { return String(v == null ? "" : v).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
   function el(id) { return document.getElementById(id); }
   function safeUrl(value) {
