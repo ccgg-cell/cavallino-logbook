@@ -15,9 +15,13 @@ jobs:
         run: node --check specialist-center.js
       - name: Check Pre-Purchase Inspection JavaScript syntax
         run: node --check prepurchase-inspection.js
+      - name: Run Pre-Purchase Inspection regression tests
+        run: node tests/prepurchase-inspection.test.js
       - name: Run Specialist Center storage regression tests
         run: node tests/specialist-center.test.js
       - name: Validate Specialist Center JSON schema syntax
         run: python -m json.tool specialist-center.schema.json > /dev/null
+      - name: Validate Pre-Purchase Inspection schema syntax
+        run: python -m json.tool prepurchase-inspection.schema.json > /dev/null
       - name: Check patch whitespace
         run: git diff --check
