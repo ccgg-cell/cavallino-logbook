@@ -180,6 +180,66 @@
     actions.appendChild(exportBtn); actions.appendChild(importBtn); actions.appendChild(input);
     header.appendChild(actions);
   }
+  function addMaintenanceReminder() {
+    var db = read(), car = currentCar(db);
+    if (!car) { alert("Select a vehicle in the Garage first."); return; }
+    var title = prompt("What maintenance or inspection should be tracked?");
+    if (title === null || !title.trim()) return;
+    var dueDate = prompt("Due date (YYYY-MM-DD), if known. Leave blank if not applicable.", "");
+    if (dueDate === null) return;
+    if (dueDate && !/^\d{4}-\d{2}-\d{2}$/.test(dueDate)) { alert("Enter the date as YYYY-MM-DD."); return; }
+    var dueOdo = prompt("Due odometer in miles, if known. Leave blank if not applicable.", "");
+    if (dueOdo === null) return;
+    if (dueOdo.trim() && (!/^\d+$/.test(dueOdo.trim()) || Number(dueOdo) < 0)) { alert("Enter a valid odometer reading."); return; }
+    if (!dueDate && !dueOdo.trim()) { alert("Enter at least a due date or due odometer."); return; }
+    var notes = prompt("Source / workshop recommendation / notes (optional). Do not treat this as a factory interval unless documented.", "") || "";
+    car.maintenanceReminders = Array.isArray(car.maintenanceReminders) ? car.maintenanceReminders : [];
+    car.maintenanceReminders.push({id:"rem-" + Date.now().toString(36) + Math.random().toString(36).slice(2,6), title:title.trim(), dueDate:dueDate.trim(), dueOdo:dueOdo.trim() ? Number(dueOdo) : null, notes:notes, status:"open", createdAt:new Date().toISOString()});
+    if (write(db) && typeof window.renderAll === "function") window.renderAll();
+  }
+  function updateReminder(id, action) {
+    var db = read(), car = currentCar(db);
+    if (!car) return;
+    car.maintenanceReminders = Array.isArray(car.maintenanceReminders) ? car.maintenanceReminders : [];
+    var item = car.maintenanceReminders.find(function (r) { return r.id === id; });
+    if (!item) return;
+    if (action === "complete") {
+      item.status = "complete"; item.completedAt = new Date().toISOString(); item.completedOdo = Number(car.mileage || 0);
+    } else if (action === "delete") {
+      if (!confirm("Delete this reminder?")) return;
+      car.maintenanceReminders = car.maintenanceReminders.filter(function (r) { return r.id !== id; });
+    }
+    if (write(db) && typeof window.renderAll === "function") window.renderAll();
+  }
+  function enhanceSchedule() {
+    var root = document.getElementById("scheduleContent");
+    if (!root || root.dataset.remindersEnhanced === "1" || typeof window.renderSchedule !== "function") return;
+    root.dataset.remindersEnhanced = "1";
+    var original = window.renderSchedule;
+    window.renderSchedule = function () {
+      original();
+      var db = read(), car = currentCar(db);
+      if (!car) return;
+      var items = Array.isArray(car.maintenanceReminders) ? car.maintenanceReminders : [];
+      var today = new Date().toISOString().slice(0,10), mileage = Number(car.mileage || 0);
+      var rows = items.slice().sort(function (a,b) { return (a.status === "complete") - (b.status === "complete") || String(a.dueDate || "9999").localeCompare(String(b.dueDate || "9999")); }).map(function (r) {
+        var overdue = r.status !== "complete" && ((r.dueDate && r.dueDate <= today) || (r.dueOdo != null && mileage >= Number(r.dueOdo)));
+        var due = [];
+        if (r.dueDate) due.push("Date: " + esc(r.dueDate));
+        if (r.dueOdo != null) due.push("Odometer: " + esc(r.dueOdo.toLocaleString("en-US")) + " mi");
+        var status = r.status === "complete" ? "Completed" : overdue ? "Due" : "Upcoming";
+        var actions = r.status === "complete" ? "" : '<button class="btn btn-ghost btn-sm" data-reminder-complete="' + esc(r.id) + '">Mark complete</button> ';
+        return '<div class="sched-row"><div><div class="sched-name">' + esc(r.title) + '</div><div class="sched-detail">' + esc(due.join(" · ") || "No due target") + (r.notes ? " · " + esc(r.notes) : "") + '</div></div><div>' + (overdue ? '<span class="pill pill-warn">Due</span>' : '<span class="pill pill-none">' + status + '</span>') + '<div style="margin-top:6px">' + actions + '<button class="btn btn-ghost btn-sm" data-reminder-delete="' + esc(r.id) + '">Delete</button></div></div></div>';
+      }).join("");
+      var panel = document.createElement("div");
+      panel.className = "panel";
+      panel.innerHTML = '<div class="panel-top"><div><h2>My Maintenance Reminders</h2><div class="panel-meta">Your own dates, mileage targets and workshop recommendations — not factory intervals</div></div><button class="btn btn-brass btn-sm" data-reminder-add="1">+ Add Reminder</button></div>' + (rows || '<p class="sc-meta">No personal reminders yet. Add one using a date or odometer target supplied by your workshop or service documentation.</p>') + '<p class="sc-meta">A reminder is user-entered planning information. Confirm service requirements for the exact VIN, model year, market and variant with Ferrari documentation or a qualified specialist.</p>';
+      root.insertBefore(panel, root.firstChild);
+      panel.querySelector("[data-reminder-add]").onclick = addMaintenanceReminder;
+      panel.querySelectorAll("[data-reminder-complete]").forEach(function (btn) { btn.onclick = function () { updateReminder(btn.dataset.reminderComplete, "complete"); }; });
+      panel.querySelectorAll("[data-reminder-delete]").forEach(function (btn) { btn.onclick = function () { updateReminder(btn.dataset.reminderDelete, "delete"); }; });
+    };
+  }
   window.CavallinoServiceHistory = {edit:editRecord, remove:deleteRecord, exportCSV:exportCSV};
   var originalSave = window.saveService;
   if (typeof originalSave === "function") {
@@ -196,6 +256,7 @@
   addFields();
   addBackupControls();
   enhanceLedger();
+  enhanceSchedule();
   if (typeof window.renderLedger === "function") window.renderLedger();
   document.addEventListener("click", function (e) { if (e.target && e.target.closest && e.target.closest('[onclick="openAddSvc()"]')) setTimeout(addFields, 0); });
 })();
