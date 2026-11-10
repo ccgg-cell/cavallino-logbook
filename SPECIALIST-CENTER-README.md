@@ -6,7 +6,7 @@ The Specialist Center is integrated as a separate tab in the existing single-pag
 - User-entered knowledge notes with a source title, optional HTTP(S) source link, and an explicit unverified status.
 - Diagnostic and inspection note capture.
 - JSON backup export and validated JSON import/merge (duplicate knowledge-note IDs are skipped).
-- A dedicated Pre-Purchase tab with a general 27-point condition checklist, VIN/year/market/variant capture, condition ratings, findings and evidence-reference fields.
+- A dedicated Pre-Purchase tab with a general 27-point condition checklist, VIN/year/market/variant capture, condition ratings, findings, evidence-reference fields and up to 8 resized local photo attachments per report.
 - Saved PPI reports with printable buyer-facing summaries, plus isolated JSON backup export/import and duplicate-ID protection.
 - Direct links to Ferrari TechInfo, Ferrari's VIN campaign lookup, and NHTSA recall resources.
 - A separate browser storage key: `cavallino_specialist_center_v1`.
@@ -72,6 +72,6 @@ These are labelled secondary-source research or historical bulletin-copy referen
 - No automatic VIN decoding or automated recall result integration.
 - No authoritative Ferrari service database integration.
 - No model-specific technical claims are preloaded.
-- PPI evidence fields store references (such as photo filenames, invoice IDs or scan IDs), not image attachments. No cloud sync, authentication, audit trail, specialist approval workflow or automatic VIN decoding.
+- PPI photo attachments are stored in the same browser-local PPI backup as the inspection report. Images are resized in-browser and limited to 8 per report; browser storage quotas still apply. There is no cloud sync, authentication, audit trail, specialist approval workflow or automatic VIN decoding.
 - PPI checklist is a general documentation framework, not a Ferrari factory checklist or certification. Model-specific inspection procedures must be reviewed and added only with verified source evidence.
 - The existing app's maintenance schedule templates are separate from this knowledge module and should not be treated as factory schedules unless independently verified for the exact vehicle.
