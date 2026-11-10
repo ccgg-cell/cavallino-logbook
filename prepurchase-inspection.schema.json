@@ -26,6 +26,7 @@
         "overall":{"type":"string"},
         "summary":{"type":"string"},
         "signoff":{"type":"string"},
+        "photos":{"type":"array","maxItems":8,"items":{"type":"object","required":["name","caption","dataUrl"],"properties":{"name":{"type":"string","maxLength":180},"caption":{"type":"string","maxLength":160},"dataUrl":{"type":"string","pattern":"^data:image/jpeg;base64,[A-Za-z0-9+/=]+$","maxLength":900000}},"additionalProperties":false}},
         "checks":{"type":"array","items":{"$ref":"#/$defs/check"}}
       },
       "additionalProperties":true
