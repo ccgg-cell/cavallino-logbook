@@ -109,6 +109,77 @@
       }
     };
   }
+  function exportFullBackup() {
+    var payload = {
+      format: "cavallino-logbook-backup",
+      version: 1,
+      exportedAt: new Date().toISOString(),
+      stores: {
+        garage: read(),
+        specialist: localStorage.getItem("cavallino_specialist_center_v1") ? JSON.parse(localStorage.getItem("cavallino_specialist_center_v1")) : null,
+        inspections: localStorage.getItem("cavallino_ppi_v1") ? JSON.parse(localStorage.getItem("cavallino_ppi_v1")) : null
+      }
+    };
+    var blob = new Blob([JSON.stringify(payload, null, 2)], {type:"application/json"});
+    var url = URL.createObjectURL(blob), a = document.createElement("a");
+    a.href = url; a.download = "cavallino-logbook-full-backup-" + new Date().toISOString().slice(0,10) + ".json";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+  }
+  function validFullBackup(p) {
+    if (!p || p.format !== "cavallino-logbook-backup" || p.version !== 1 || !p.stores || !p.stores.garage || !Array.isArray(p.stores.garage.cars)) return false;
+    if (!p.stores.garage.cars.every(function (c) { return c && typeof c.id === "string" && typeof c.model === "string" && Array.isArray(c.services) && c.services.every(function (e) { return e && typeof e.id === "string"; }); })) return false;
+    var sc = p.stores.specialist;
+    if (sc !== null && (!sc || !Array.isArray(sc.items) || !Array.isArray(sc.records) || !sc.items.every(function (n) { return n && typeof n.id === "string"; }))) return false;
+    var ppi = p.stores.inspections;
+    if (ppi !== null && (!ppi || ppi.version !== 1 || !Array.isArray(ppi.items))) return false;
+    if (ppi && !ppi.items.every(function (r) {
+      return r && typeof r.id === "string" && typeof r.vehicle === "string" && typeof r.date === "string" && Array.isArray(r.checks) &&
+        (r.photos === undefined || (Array.isArray(r.photos) && r.photos.length <= 8 && r.photos.every(function (photo) {
+          return photo && typeof photo.name === "string" && typeof photo.caption === "string" &&
+            typeof photo.dataUrl === "string" && photo.dataUrl.length <= 900000 &&
+            /^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(photo.dataUrl);
+        })));
+    })) return false;
+    return true;
+  }
+  function importFullBackup(file) {
+    var reader = new FileReader();
+    reader.onload = function () {
+      var payload;
+      try { payload = JSON.parse(String(reader.result || "")); } catch (e) { alert("That file is not valid JSON."); return; }
+      if (!validFullBackup(payload)) { alert("This does not look like a valid Cavallino Logbook full backup. No data was changed."); return; }
+      if (!confirm("Restore this backup? It will replace the Garage, Specialist Center and Pre-Purchase records currently stored in this browser. Export a current backup first if you want to keep today's data.")) return;
+      try {
+        localStorage.setItem(KEY, JSON.stringify(payload.stores.garage));
+        if (payload.stores.specialist) localStorage.setItem("cavallino_specialist_center_v1", JSON.stringify(payload.stores.specialist));
+        else localStorage.removeItem("cavallino_specialist_center_v1");
+        if (payload.stores.inspections) localStorage.setItem("cavallino_ppi_v1", JSON.stringify(payload.stores.inspections));
+        else localStorage.removeItem("cavallino_ppi_v1");
+        alert("Backup restored. The app will reload to reopen the restored records.");
+        window.location.reload();
+      } catch (e) { alert("Restore could not finish because browser storage is full or unavailable. Existing data may be incomplete; reload and check your backup."); }
+    };
+    reader.onerror = function () { alert("Could not read that backup file."); };
+    reader.readAsText(file);
+  }
+  function addBackupControls() {
+    var header = document.querySelector("#view-garage .garage-header");
+    if (!header || header.querySelector("[data-full-backup]")) return;
+    var actions = document.createElement("div");
+    actions.style.display = "flex"; actions.style.gap = "8px"; actions.style.flexWrap = "wrap";
+    var exportBtn = document.createElement("button");
+    exportBtn.className = "btn btn-ghost btn-sm"; exportBtn.textContent = "Export Full Backup";
+    exportBtn.dataset.fullBackup = "1"; exportBtn.onclick = exportFullBackup;
+    var importBtn = document.createElement("button");
+    importBtn.className = "btn btn-ghost btn-sm"; importBtn.textContent = "Restore Backup";
+    var input = document.createElement("input");
+    input.type = "file"; input.accept = "application/json,.json"; input.hidden = true;
+    input.onchange = function () { if (input.files && input.files[0]) importFullBackup(input.files[0]); input.value = ""; };
+    importBtn.onclick = function () { input.click(); };
+    actions.appendChild(exportBtn); actions.appendChild(importBtn); actions.appendChild(input);
+    header.appendChild(actions);
+  }
   window.CavallinoServiceHistory = {edit:editRecord, remove:deleteRecord, exportCSV:exportCSV};
   var originalSave = window.saveService;
   if (typeof originalSave === "function") {
@@ -123,6 +194,7 @@
     };
   }
   addFields();
+  addBackupControls();
   enhanceLedger();
   if (typeof window.renderLedger === "function") window.renderLedger();
   document.addEventListener("click", function (e) { if (e.target && e.target.closest && e.target.closest('[onclick="openAddSvc()"]')) setTimeout(addFields, 0); });

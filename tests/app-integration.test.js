@@ -39,6 +39,11 @@ assert.match(serviceHistory, /followup/, "service history should capture follow-
 assert.match(serviceHistory, /function exportCSV/, "service history should support CSV export");
 assert.match(serviceHistory, /function editRecord/, "service records should be editable");
 assert.match(serviceHistory, /function deleteRecord/, "service records should be deletable");
+assert.match(serviceHistory, /function exportFullBackup/, "full local data backup should be exportable");
+assert.match(serviceHistory, /function importFullBackup/, "full local data backup should be restorable");
+assert.match(serviceHistory, /validFullBackup/, "backup restore must validate data before writing");
+assert.match(serviceHistory, /cavallino_specialist_center_v1/, "full backup should include Specialist Center data");
+assert.match(serviceHistory, /cavallino_ppi_v1/, "full backup should include inspection data");
 
 for (const asset of ["./index.html", "./manifest.json", "./specialist-center.js", "./prepurchase-inspection.js", "./inspection-photo-evidence.js", "./service-history-enhancements.js"]) {
   assert.ok(sw.includes("'" + asset + "'"), "service worker must cache " + asset);
