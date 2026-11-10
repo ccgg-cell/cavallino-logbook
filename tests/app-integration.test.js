@@ -7,6 +7,7 @@ const html = fs.readFileSync("index.html", "utf8");
 const sw = fs.readFileSync("sw.js", "utf8");
 const specialist = fs.readFileSync("specialist-center.js", "utf8");
 const ppi = fs.readFileSync("prepurchase-inspection.js", "utf8");
+const photos = fs.readFileSync("inspection-photo-evidence.js", "utf8");
 
 const tabs = [...html.matchAll(/class="tab[^"]*"[^>]*data-view="([^"]+)"/g)].map(m => m[1]);
 assert.ok(tabs.length >= 6, "the app should expose its core and specialist tabs");
@@ -23,11 +24,16 @@ const ppiMarkup = html.indexOf('<script src="prepurchase-inspection.js"></script
 const inlineInit = html.lastIndexOf("function renderAll()");
 assert.ok(specialistMarkup >= 0 && specialistMarkup < inlineInit, "Specialist Center module must load before app initialization");
 assert.ok(ppiMarkup > inlineInit, "PPI module must load after the app shell markup and initialization");
+const photoMarkup = html.indexOf('<script src="inspection-photo-evidence.js"></script>');
+assert.ok(photoMarkup > ppiMarkup, "photo evidence module must load after PPI module");
 assert.match(html, /window\.renderSpecialistCenter\(\)/, "app render cycle must refresh Specialist Center");
 assert.match(html, /window\.renderPrePurchaseInspection\(\)/, "app render cycle must refresh PPI when available");
 assert.match(ppi, /if\(typeof document!==\"undefined\"\)render\(\)/, "PPI module must render when loaded after app initialization");
+assert.match(photos, /cavallino_ppi_v1/, "photo evidence must use the PPI storage namespace");
+assert.match(photos, /MAX = 8/, "photo evidence must enforce an attachment limit");
+assert.match(photos, /toDataURL\("image\/jpeg", 0\.72\)/, "photo evidence must compress images before local storage");
 
-for (const asset of ["./index.html", "./manifest.json", "./specialist-center.js", "./prepurchase-inspection.js"]) {
+for (const asset of ["./index.html", "./manifest.json", "./specialist-center.js", "./prepurchase-inspection.js", "./inspection-photo-evidence.js"]) {
   assert.ok(sw.includes("'" + asset + "'"), "service worker must cache " + asset);
 }
 assert.match(specialist, /cavallino_specialist_center_v1/, "Specialist Center must use its isolated storage key");
