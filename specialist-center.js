@@ -17,11 +17,52 @@
     {id:"360-002",title:"360 — assess clutch condition and F1 system history",category:"Transmission",scope:"Ferrari 360 Modena and Spider; distinguish six-speed manual from F1 automated manual",type:"Independent specialist / buyer-guide research",status:"Secondary-source research — specialist diagnostics required",summary:"Buyer guides identify clutch wear as an important inspection item, particularly on F1 cars exposed to frequent low-speed traffic. Record transmission type, prior clutch work and available diagnostic wear data; have a specialist assess take-up, slipping, shift quality, hydraulic operation and stored faults. Do not use generic mileage estimates as a replacement interval or a pass/fail threshold.",source:"Octane Magazine Ferrari 360 Modena buying guide (2026); evo Ferrari 360 buying guide.",sourceUrl:"https://www.octane-magazine.com/articles/buying-guides/ferrari-360-modena-buying-guide-history-and-model-review/",updated:TODAY()},
     {id:"360-003",title:"360 — inspect suspension ball joints and front-end condition",category:"Chassis",scope:"Ferrari 360 Modena and Spider; inspect actual condition and prior replacement records",type:"Independent specialist / buyer-guide research",status:"Secondary-source research — specialist inspection required",summary:"Independent 360 buying guides report suspension ball-joint wear and knocks or clunks as inspection concerns. Check service invoices and have a specialist inspect joints, boots, play, fasteners, tires and alignment-related symptoms using the correct workshop procedure. No universal replacement mileage is asserted here.",source:"evo Ferrari 360 Modena buying guide; Octane Magazine Ferrari 360 Modena buying guide (2026).",sourceUrl:"https://www.evo.co.uk/ferrari/360/19057/ferrari-360-modena-history-specs-and-buying-guide",updated:TODAY()}
   ];
+
+  const ppiSections = [
+    {title:"Identity, provenance & paperwork",items:[
+      ["identity-vin","VIN and chassis identity agree across vehicle, title and records"],
+      ["identity-title","Title, registration, ownership and import/export paperwork reviewed"],
+      ["identity-history","Service invoices, mileage chronology and ownership history reviewed"],
+      ["identity-campaigns","Ferrari campaign status checked with Ferrari; NHTSA results checked separately"],
+      ["identity-keys","Keys, manuals, tools, accessories and supplied equipment inventoried"]
+    ]},
+    {title:"Body, structure & exterior",items:[
+      ["body-panels","Panel fit, paint consistency and signs of prior repair assessed"],
+      ["body-structure","Structure, underbody and known repair areas inspected by qualified personnel"],
+      ["body-corrosion","Corrosion, water ingress and underbody condition assessed"],
+      ["body-glass","Glass, lamps, seals, trim and exterior hardware checked"],
+      ["body-wheels","Wheels, tires, tire age/condition and evidence of damage recorded"]
+    ]},
+    {title:"Cabin, controls & electrical",items:[
+      ["cabin-interior","Seats, leather, carpets, trim and evidence of water ingress checked"],
+      ["cabin-controls","Switchgear, instruments, warning lamps and controls operated"],
+      ["electrical-battery","Battery condition, charging and electrical supply tested as appropriate"],
+      ["electrical-systems","Climate control, windows, locks, infotainment and accessories operated"]
+    ]},
+    {title:"Mechanical systems & diagnostics",items:[
+      ["mechanical-engine","Cold-start behavior, leaks, noises, smoke and operating temperature assessed"],
+      ["mechanical-cooling","Cooling system condition, leaks and fan operation assessed"],
+      ["mechanical-fluid","Visible fluid leaks and fluid condition documented; specifications verified separately"],
+      ["mechanical-transmission","Transmission operation, clutch/shift behavior and history assessed for fitted type"],
+      ["mechanical-driveline","Driveline, mounts, bearings and abnormal vibration/noise assessed"],
+      ["mechanical-brakes","Brake system, pedal feel, visible wear and warning indications assessed"],
+      ["mechanical-suspension","Steering, suspension, joints, dampers and tire wear assessed"],
+      ["mechanical-diagnostics","Appropriate diagnostic scan completed; codes, freeze-frame and test results saved"]
+    ]},
+    {title:"Road test, specialist review & decision",items:[
+      ["road-test","Road test completed under safe and legal conditions, or reason not completed recorded"],
+      ["road-test-handling","Steering, braking, ride, vibration and abnormal noises assessed"],
+      ["specialist-review","Model/year/VIN-specific concerns reviewed against authoritative sources"],
+      ["specialist-estimate","Further tests, repair estimates and outstanding questions documented"],
+      ["decision","Buyer decision, conditions and independent specialist sign-off recorded"]
+    ]}
+  ];
   let queryText = "", selectedCategory = "";
   let data;
   try { data = JSON.parse(localStorage.getItem(STORE) || "null") || {}; } catch (_) { data = {}; }
   if (!Array.isArray(data.items)) data.items = [];
   if (!Array.isArray(data.records)) data.records = [];
+  if (!Array.isArray(data.inspections)) data.inspections = [];
   const knownIds = new Set(data.items.map(x => x && x.id).filter(Boolean));
   let seedsAdded = false;
   seed.forEach(item => {
@@ -106,10 +147,10 @@
         <div class="modal-actions"><button class="btn btn-brass" id="scSaveRecord">Save Inspection Note</button></div><div id="scRecords"></div>
       </div>`;
     el("scSearch").value=queryText; el("scCategory").value=selectedCategory;
-    renderItems(); renderRecords();
+    renderItems(); renderRecords(); renderInspections();
     el("scSearch").oninput=()=>{queryText=el("scSearch").value;renderItems();};
     el("scCategory").onchange=()=>{selectedCategory=el("scCategory").value;renderItems();};
-    el("scAdd").onclick=()=>{
+`
       const title=el("scTitle").value.trim(), summary=el("scSummary").value.trim();
       if(!title||!summary){alert("Please enter a title and note summary.");return;}
       const rawUrl=el("scSourceUrl").value.trim(), sourceUrl=rawUrl?safeUrl(rawUrl):"";
@@ -124,6 +165,18 @@
       data.records.push({vehicle:el("scVehicle").value.trim()||"Vehicle not specified",date,odo:el("scOdo").value.trim(),area:el("scArea").value.trim()||"Unspecified",notes});
       if(persist()){render();if(typeof toast==="function")toast("Inspection note saved");}
     };
+
+    el("scSavePpi").onclick=()=>{
+      const vehicle=el("ppiVehicle").value.trim(),date=el("ppiDate").value;
+      if(!vehicle||!date){alert("Enter the vehicle and inspection date before saving.");return;}
+      const checks=ppiSections.flatMap(section=>section.items.map(([id])=>({
+        id,rating:el("scPpiChecklist").querySelector('[data-ppi-rating="'+id+'"]').value,
+        notes:el("scPpiChecklist").querySelector('[data-ppi-notes="'+id+'"]').value.trim(),
+        evidence:el("scPpiChecklist").querySelector('[data-ppi-evidence="'+id+'"]').value.trim()
+      })));
+      data.inspections.push({id:"ppi-"+Date.now(),vehicle,year:el("ppiYear").value.trim(),vin:el("ppiVin").value.trim(),market:el("ppiMarket").value.trim(),transmission:el("ppiTransmission").value.trim(),odo:el("ppiOdo").value.trim(),date,inspector:el("ppiInspector").value.trim(),seller:el("ppiSeller").value.trim(),overall:el("ppiOverall").value,summary:el("ppiSummary").value.trim(),checks,signoff:""});
+      if(persist()){renderInspections();if(typeof toast==="function")toast("PPI saved. Print the report below.");}
+    };
     el("scExport").onclick=downloadBackup;
     el("scImportBtn").onclick=()=>el("scImportFile").click();
     el("scImportFile").onchange=async event=>{
@@ -134,7 +187,7 @@
         if(!confirm("Import and merge these notes with the current browser data? Existing records will be kept; duplicate IDs will be skipped."))return;
         const ids=new Set(data.items.map(x=>x.id));
         imported.items.forEach(x=>{if(!ids.has(x.id)){data.items.push({...x,sourceUrl:safeUrl(x.sourceUrl||"")});ids.add(x.id);}});
-        data.records=data.records.concat(imported.records);
+        data.records=data.records.concat(imported.records);\n        data.inspections=data.inspections.concat(imported.inspections||[]);
         if(persist()){render();if(typeof toast==="function")toast("Backup imported");}
       } catch(_){alert("Could not read this backup file. Nothing was changed.");}
       finally {event.target.value="";}
