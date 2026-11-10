@@ -14,6 +14,10 @@ Every proposed entry must include:
 
 Prefer Ferrari TechInfo and the applicable owner/workshop documentation for factory specifications. Ferrari's TechInfo materials describe VIN/model-based access to workshop procedures, wiring diagrams, technical bulletins, campaign information, maintenance and parts information; subscription/access conditions apply. Ferrari also provides a VIN campaign lookup. Use NHTSA for U.S. safety recalls, investigations and complaints; NHTSA explicitly notes that its VIN lookup does not show completed recalls, some recent recalls, recalls older than 15 years, some specialty-manufacturer recalls, manufacturer service campaigns or international recalls. Neither database alone establishes a vehicle's complete repair history. Do not reproduce copyrighted factory manual pages or proprietary procedures without permission.
 
+## Pre-purchase inspection workflow
+
+The app now includes a general PPI recording template with identity/provenance, body/structure, cabin/electrical, mechanical/diagnostics, road-test and decision sections. Each item defaults to **Not inspected** and supports a condition rating, findings and an evidence reference. Saved reports can be printed and backed up locally. This is not a factory checklist, valuation, certification or substitute for an independent Ferrari specialist. The evidence field records a filename/reference only; photo uploads are not yet supported.
+
 ## Initial model coverage queue
 
 | Model family | Research status | First source targets |
