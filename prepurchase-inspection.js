@@ -34,6 +34,7 @@ function printReport(id){
   g[1].forEach((label,i)=>{const c=r.checks.find(x=>x.key===gi+"-"+i)||{};html+='<tr><td>'+esc(label)+'</td><td>'+esc(labels[c.rating]||"Not inspected")+'</td><td>'+esc(c.notes)+'</td><td>'+esc(c.evidence)+'</td></tr>';});
   html+='</table>';
  });
+ if(Array.isArray(r.photos)&&r.photos.length){html+='<h2>Photo evidence</h2><div>';r.photos.forEach(p=>{html+='<figure style="display:inline-block;width:30%;vertical-align:top;margin:1%"><img src="'+esc(p.dataUrl)+'" style="width:100%;height:auto"><figcaption>'+esc(p.caption||p.name)+'</figcaption></figure>';});html+='</div>';}
  html+='<div class="note"><b>Important:</b> This is a recording template, not a substitute for a qualified Ferrari specialist examination. Ratings reflect only observations entered. Verify model-specific procedures, specifications, campaign status and safety-critical findings for the exact VIN, year, market and variant. “Not inspected” does not mean satisfactory.</div><p><b>Inspector sign-off:</b> '+esc(r.signoff)+'</p><script>window.onload=()=>window.print();</script></body></html>';
  w.document.write(html);w.document.close();
 }
