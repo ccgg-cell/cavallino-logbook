@@ -260,7 +260,7 @@ footer{text-align:center;padding:24px;color:var(--ink-dim);font-size:11px;border
     </div>
     <div class="field-group">
       <div class="field">
-        <label>Maintenance Schedule Template</label>
+        <label>Planning Template (not factory data)</label>
         <select id="f-template">
           <option value="v12-classic">Classic V12 (365/Daytona/512/BB-era)</option>
           <option value="classic">Classic V8 (308/328/348-era)</option>
@@ -485,6 +485,7 @@ function renderSchedule(){
       <div><h2>${car.year} ${car.model} — Maintenance Schedule</h2><div class="panel-meta">${car.template.replace(/-/g,' ')} template · ${fmt(car.mileage)} mi current</div></div>
       <button class="btn btn-primary btn-sm" onclick="openAddSvc()">+ Log Service</button>
     </div>
+    <div class="sc-notice"><strong>Planning aid only:</strong> These built-in intervals are generic placeholders, not verified Ferrari factory requirements or model/VIN-specific recommendations. Confirm the correct schedule in current Ferrari documentation or with a qualified Ferrari specialist before relying on it.</div>
     ${rows}
   </div>`;
 }
