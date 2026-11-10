@@ -14,7 +14,7 @@
   function read() { try { return JSON.parse(localStorage.getItem(KEY) || "null"); } catch (e) { return null; } }
   function write(db) { try { localStorage.setItem(KEY, JSON.stringify(db)); return true; } catch (e) { alert("Could not save this change. Export a backup and check browser storage."); return false; } }
   function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
-  function currentCar(db) { return db && db.cars && db.cars.find(function (c) { return c.id === window.selectedId; }); }
+  function currentCar(db) { return db && db.cars && db.cars.find(function (c) { return c.id === selectedId; }); }
   function addFields() {
     var modal = document.querySelector("#addSvcOverlay .modal");
     if (!modal || document.getElementById("s-parts")) return;
@@ -117,6 +117,14 @@
   var originalSave = window.saveService;
   if (typeof originalSave === "function") {
     window.saveService = function () { originalSave(); enhanceSavedRecord(); if (typeof window.renderAll === "function") window.renderAll(); };
+  }
+  var originalOpen = window.openAddSvc;
+  if (typeof originalOpen === "function") {
+    window.openAddSvc = function () {
+      originalOpen();
+      ["s-parts","s-invoice","s-followup"].forEach(function (id) { var el=document.getElementById(id); if(el)el.value=""; });
+      var basis=document.getElementById("s-basis"); if(basis)basis.value="Not specified";
+    };
   }
   addFields();
   enhanceLedger();
