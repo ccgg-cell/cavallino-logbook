@@ -84,3 +84,8 @@ These are labelled secondary-source research or historical bulletin-copy referen
 ## Ferrari Model Encyclopedia
 
 The Specialist Center now includes a searchable first-edition model encyclopedia for the 308, 328, 348, F355, 360, F430, 458, 488 and Roma. Profiles summarize model-family identity, notable variants, identification questions and inspection research prompts, with links to external sources. Model-year spans are approximate reference ranges; confirm the individual VIN, build date, market, options and factory documentation before applying technical guidance. The encyclopedia does not publish unverified factory intervals, torque values, fluids or repair procedures.
+
+
+## Model-specific Pre-Purchase guidance
+
+The PPI workspace can use the Model Encyclopedia to display identification checks, model-specific inspection research prompts and source links for the selected Ferrari family. The user may copy those prompts into the report summary. This is supplementary research, not a factory checklist or a substitute for a specialist inspection. Confirm VIN, build date, market, variant and applicable factory information before acting.

@@ -10,6 +10,7 @@ const ppi = fs.readFileSync("prepurchase-inspection.js", "utf8");
 const photos = fs.readFileSync("inspection-photo-evidence.js", "utf8");
 const serviceHistory = fs.readFileSync("service-history-enhancements.js", "utf8");
 const modelEncyclopedia = fs.readFileSync("model-encyclopedia.js", "utf8");
+const modelPpiGuidance = fs.readFileSync("model-ppi-guidance.js", "utf8");
 
 const tabs = [...html.matchAll(/class="tab[^"]*"[^>]*data-view="([^"]+)"/g)].map(m => m[1]);
 assert.ok(tabs.length >= 6, "the app should expose its core and specialist tabs");
@@ -53,8 +54,11 @@ assert.match(modelEncyclopedia, /Ferrari Model Encyclopedia/, "model encyclopedi
 for (const model of ["308","328","348","f355","360","f430","458","488","roma"]) assert.match(modelEncyclopedia, new RegExp('id:"' + model + '"' ), "encyclopedia should include " + model);
 assert.match(modelEncyclopedia, /Identify before applying guidance/, "profiles must explain applicability checks");
 assert.match(modelEncyclopedia, /Research sources/, "profiles must link research sources");
+assert.match(modelEncyclopedia, /CavallinoModelEncyclopedia/, "model profiles should be exposed to the PPI guidance module");
+assert.match(modelPpiGuidance, /Model-specific research prompts/, "PPI should display model-specific research prompts");
+assert.match(modelPpiGuidance, /Add prompts to report summary/, "PPI prompts should be optionally included in report summary");
 
-for (const asset of ["./index.html", "./manifest.json", "./specialist-center.js", "./prepurchase-inspection.js", "./inspection-photo-evidence.js", "./service-history-enhancements.js", "./model-encyclopedia.js"]) {
+for (const asset of ["./index.html", "./manifest.json", "./specialist-center.js", "./prepurchase-inspection.js", "./inspection-photo-evidence.js", "./service-history-enhancements.js", "./model-encyclopedia.js", "./model-ppi-guidance.js"]) {
   assert.ok(sw.includes("'" + asset + "'"), "service worker must cache " + asset);
 }
 assert.match(specialist, /cavallino_specialist_center_v1/, "Specialist Center must use its isolated storage key");

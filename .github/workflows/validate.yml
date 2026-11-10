@@ -21,6 +21,8 @@ jobs:
         run: node --check service-history-enhancements.js
       - name: Check Ferrari model encyclopedia JavaScript syntax
         run: node --check model-encyclopedia.js
+      - name: Check model-specific PPI guidance JavaScript syntax
+        run: node --check model-ppi-guidance.js
       - name: Run app integration smoke checks
         run: node tests/app-integration.test.js
       - name: Run Pre-Purchase Inspection regression tests

@@ -113,6 +113,7 @@
     input.addEventListener("input", function () { render(input.value); });
     render("");
   }
+  window.CavallinoModelEncyclopedia = {models:models};
   var original = window.renderSpecialistCenter;
   if (typeof original === "function") {
     window.renderSpecialistCenter = function () { original(); mount(); };
