@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ccgg-cell.github.io/cavallino-logbook/specialist-center.schema.json",
+  "title": "Cavallino Specialist Center Data",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "exportedAt",
+    "items",
+    "records"
+  ],
+  "properties": {
+    "version": {
+      "const": 1
+    },
+    "exportedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/knowledgeItem"
+      }
+    },
+    "records": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/inspectionRecord"
+      }
+    }
+  },
+  "$defs": {
+    "knowledgeItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "scope",
+        "category",
+        "type",
+        "status",
+        "summary",
+        "source",
+        "updated"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scope": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source": {
+          "type": "string"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date"
+        },
+        "sourceUrl": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+    "inspectionRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "vehicle",
+        "date",
+        "odo",
+        "area",
+        "notes"
+      ],
+      "properties": {
+        "vehicle": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string",
+          "format": "date"
+        },
+        "odo": {
+          "type": "string"
+        },
+        "area": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

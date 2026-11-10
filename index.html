@@ -149,6 +149,17 @@ footer{text-align:center;padding:24px;color:var(--ink-dim);font-size:11px;border
   .header{flex-direction:column;align-items:flex-start;}
   .tabs .tab{padding:10px 12px;font-size:12px;}
 }
+
+/* SPECIALIST CENTER */
+.sc-notice{background:rgba(176,141,87,.08);border:1px solid var(--brass-dim);padding:14px 16px;margin:0 0 20px;color:var(--ink-dim);font-size:13px;line-height:1.55}
+.sc-notice strong{color:var(--brass)}
+.sc-item{padding:16px 0;border-bottom:1px solid var(--hairline)}
+.sc-item:last-child{border-bottom:0}
+.sc-item-head{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.sc-item-head strong{font-family:'Fraunces',serif;font-size:17px;font-weight:500}
+.sc-meta,.sc-source{font-size:12px;color:var(--ink-dim);margin-top:6px}
+.sc-item p{font-size:14px;line-height:1.55;margin:10px 0 4px}
+
 </style>
 </head>
 <body>
@@ -179,6 +190,8 @@ footer{text-align:center;padding:24px;color:var(--ink-dim);font-size:11px;border
     <button class="tab" data-view="schedule">📋 Schedule</button>
     <button class="tab" data-view="ledger">📒 Service Log</button>
     <button class="tab" data-view="provenance">📄 Provenance</button>
+    <button class="tab" data-view="specialist">🔧 Specialist Center</button>
+    <button class="tab" data-view="prepurchase">🔍 Pre-Purchase</button>
   </div>
 
   <!-- GARAGE VIEW -->
@@ -204,6 +217,9 @@ footer{text-align:center;padding:24px;color:var(--ink-dim);font-size:11px;border
   <div class="view" id="view-provenance">
     <div id="provenanceContent"></div>
   </div>
+
+  <div class="view" id="view-specialist"><div id="specialistCenterContent"></div></div>
+  <div class="view" id="view-prepurchase"><div id="prePurchaseContent"></div></div>
 
   <footer>Cavallino Logbook — your data is stored privately on this device. Not affiliated with any automobile manufacturer.</footer>
 </div>
@@ -246,7 +262,7 @@ footer{text-align:center;padding:24px;color:var(--ink-dim);font-size:11px;border
     </div>
     <div class="field-group">
       <div class="field">
-        <label>Maintenance Schedule Template</label>
+        <label>Planning Template (not factory data)</label>
         <select id="f-template">
           <option value="v12-classic">Classic V12 (365/Daytona/512/BB-era)</option>
           <option value="classic">Classic V8 (308/328/348-era)</option>
@@ -309,6 +325,7 @@ footer{text-align:center;padding:24px;color:var(--ink-dim);font-size:11px;border
   </div>
 </div>
 
+<script src="./specialist-center.js"></script>
 <script>
 /* ====== DATA ====== */
 const KEY = 'cavallino_v2';
@@ -470,6 +487,7 @@ function renderSchedule(){
       <div><h2>${car.year} ${car.model} — Maintenance Schedule</h2><div class="panel-meta">${car.template.replace(/-/g,' ')} template · ${fmt(car.mileage)} mi current</div></div>
       <button class="btn btn-primary btn-sm" onclick="openAddSvc()">+ Log Service</button>
     </div>
+    <div class="sc-notice"><strong>Planning aid only:</strong> These built-in intervals are generic placeholders, not verified Ferrari factory requirements or model/VIN-specific recommendations. Confirm the correct schedule in current Ferrari documentation or with a qualified Ferrari specialist before relying on it.</div>
     ${rows}
   </div>`;
 }
@@ -706,8 +724,9 @@ document.querySelectorAll('.overlay').forEach(o=>{
 });
 
 /* ====== INIT ====== */
-function renderAll(){renderHeader();renderGarage();renderSchedule();renderLedger();renderProvenance();}
+function renderAll(){renderHeader();renderGarage();renderSchedule();renderLedger();renderProvenance();if(window.renderSpecialistCenter)window.renderSpecialistCenter();if(window.renderPrePurchaseInspection)window.renderPrePurchaseInspection();}
 renderAll();
 </script>
+<script src="prepurchase-inspection.js"></script>
 </body>
 </html>

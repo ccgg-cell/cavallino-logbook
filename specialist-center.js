@@ -1,0 +1,151 @@
+/* Cavallino Logbook — Specialist Knowledge Center
+ * Separate storage namespace; never writes Garage/Service Log data.
+ * Technical claims require model/VIN applicability and a traceable source.
+ */
+(function () {
+  "use strict";
+  const STORE = "cavallino_specialist_center_v1";
+  const TODAY = () => new Date().toISOString().slice(0, 10);
+  const seed = [
+    {id:"sc-001",title:"Confirm vehicle identity before applying technical guidance",category:"Verification",scope:"All models",type:"Specialist process",status:"General guidance",summary:"Confirm VIN, model designation, model year, market, engine, transmission and relevant production variant before using any model-specific procedure or interval.",source:"Vehicle identification and manufacturer documentation should be checked for the individual car.",sourceUrl:"",updated:TODAY()},
+    {id:"sc-002",title:"Keep evidence with every maintenance record",category:"Documentation",scope:"All models",type:"Specialist process",status:"General guidance",summary:"Record date, odometer, workshop, technician, work performed, parts and part numbers where known, invoices, photographs, test results and follow-up recommendations.",source:"Cavallino Logbook documentation standard.",sourceUrl:"",updated:TODAY()},
+    {id:"sc-003",title:"Separate factory requirements from specialist recommendations",category:"Service planning",scope:"All models",type:"Editorial standard",status:"General guidance",summary:"Label each maintenance item as factory-published, campaign/recall, legal requirement, or independent specialist recommendation. Do not present an estimate or common practice as a factory interval.",source:"Cavallino Logbook editorial and verification standard.",sourceUrl:"",updated:TODAY()},
+    {id:"f355-001",title:"F355 — investigate valve-guide history and oil consumption",category:"Engine",scope:"Ferrari F355; reports emphasize early production, but do not assume later cars are exempt",type:"Independent specialist / buyer-guide research",status:"Secondary-source research — specialist and vehicle verification required",summary:"Published buyer guides report premature wear concerns with bronze valve guides on some early F355 engines, with oil consumption or smoke among the inspection clues. Applicability cannot be determined by model year alone. Review prior invoices and any documented guide replacement; assess oil consumption, exhaust smoke, compression/leak-down and plugs as appropriate through a qualified Ferrari specialist. Do not prescribe replacement from this note alone.",source:"Hagerty UK F355 buying guide (2024); Car and Driver F355 buyer guide (2015). Secondary sources; conflicting prevalence claims mean this is an inspection prompt, not a defect-rate statement.",sourceUrl:"https://www.hagerty.co.uk/articles/buying-guide-ferrari-f355-1994-99/",updated:TODAY()},
+    {id:"f355-002",title:"F355 — inspect exhaust manifolds and catalytic system",category:"Engine",scope:"Ferrari F355; all body styles and markets require individual inspection",type:"Independent specialist / buyer-guide research",status:"Secondary-source research — specialist verification required",summary:"Buyer guides report cracked or warped exhaust manifolds and potential downstream catalytic-converter damage. During a cold and fully warmed inspection, have a Ferrari specialist assess exhaust noise, leaks, manifold condition, catalyst condition and any evidence of overheating or prior replacement. Do not assume every car has the issue or infer the root cause without diagnosis.",source:"Hagerty UK F355 buying guide (2024); Car and Driver F355 buyer guide (2015).",sourceUrl:"https://www.caranddriver.com/news/a15356898/ferrari-f355-buyers-guide-what-you-need-to-know-about-values-problems-and-more/",updated:TODAY()},
+    {id:"f355-003",title:"F355 — verify timing-belt service history and scope",category:"Service planning",scope:"Ferrari F355; confirm exact year, market and engine configuration",type:"Independent specialist / buyer-guide research",status:"Secondary-source research — confirm factory schedule and method",summary:"F355 buyer guides consistently emphasize documented timing-belt service. Published sources differ in the details of service method and recommended practice; this note intentionally does not state an interval or prescribe engine removal. Obtain invoices showing date, mileage, work scope and parts, then confirm the applicable factory schedule and procedure in Ferrari documentation for the specific car.",source:"Car and Driver F355 buyer guide (2015); Hagerty UK F355 buying guide (2024).",sourceUrl:"https://www.hagerty.co.uk/articles/buying-guide-ferrari-f355-1994-99/",updated:TODAY()},
+    {id:"360-001",title:"360 — check applicability and completion of camshaft variator campaign",category:"Engine",scope:"Ferrari 360; Ferrari North America Technical Information Bulletin 1232 / Service Campaign 97 states engine numbers below 60796 and VIN range 114015–123399",type:"Ferrari North America technical bulletin copy — verify with Ferrari",status:"Historical bulletin copy — VIN applicability and completion must be confirmed",summary:"A copy of Ferrari North America Technical Information Bulletin 1232 (June 2004) describes Service Campaign 97 for specified early 360 vehicles and updated exhaust camshaft variators/tensioner components. The bulletin itself says to check the vehicle in Ferrari dealer systems. Treat the printed engine/VIN range as a screening clue only: ask an authorized Ferrari dealer or qualified specialist to verify the individual VIN, campaign eligibility and recorded completion. Do not use this note as a repair procedure.",source:"Ferrari North America Technical Information Bulletin 1232, June 2004, copy hosted by Ricambi America; primary document copy, but current campaign status must be checked with Ferrari.",sourceUrl:"https://ricambiamerica.wordpress.com/wp-content/uploads/2016/01/tsb1232_variator1.pdf",updated:TODAY()},
+    {id:"360-002",title:"360 — assess clutch condition and F1 system history",category:"Transmission",scope:"Ferrari 360 Modena and Spider; distinguish six-speed manual from F1 automated manual",type:"Independent specialist / buyer-guide research",status:"Secondary-source research — specialist diagnostics required",summary:"Buyer guides identify clutch wear as an important inspection item, particularly on F1 cars exposed to frequent low-speed traffic. Record transmission type, prior clutch work and available diagnostic wear data; have a specialist assess take-up, slipping, shift quality, hydraulic operation and stored faults. Do not use generic mileage estimates as a replacement interval or a pass/fail threshold.",source:"Octane Magazine Ferrari 360 Modena buying guide (2026); evo Ferrari 360 buying guide.",sourceUrl:"https://www.octane-magazine.com/articles/buying-guides/ferrari-360-modena-buying-guide-history-and-model-review/",updated:TODAY()},
+    {id:"360-003",title:"360 — inspect suspension ball joints and front-end condition",category:"Chassis",scope:"Ferrari 360 Modena and Spider; inspect actual condition and prior replacement records",type:"Independent specialist / buyer-guide research",status:"Secondary-source research — specialist inspection required",summary:"Independent 360 buying guides report suspension ball-joint wear and knocks or clunks as inspection concerns. Check service invoices and have a specialist inspect joints, boots, play, fasteners, tires and alignment-related symptoms using the correct workshop procedure. No universal replacement mileage is asserted here.",source:"evo Ferrari 360 Modena buying guide; Octane Magazine Ferrari 360 Modena buying guide (2026).",sourceUrl:"https://www.evo.co.uk/ferrari/360/19057/ferrari-360-modena-history-specs-and-buying-guide",updated:TODAY()},
+    {id:"308-001",title:"308 — inspect body structure, corrosion and service records",category:"Body & interior",scope:"Ferrari 308; distinguish steel-bodied and early glassfibre-bodied variants",type:"Independent buyer-guide research",status:"Secondary-source inspection prompt — specialist verification required",summary:"Hagerty and Magneto buyer guides emphasize careful inspection of sills, lower doors, wheel arches, footwells, floors, drains and chassis areas. A glassfibre body does not eliminate the need to inspect the steel chassis and body-to-frame areas. Review belt-service invoices, cold-start behavior, fuel-system operation for the fitted variant and electrical condition with a Ferrari specialist. Do not infer condition from cosmetic appearance alone.",source:"Hagerty UK Ferrari 308 buyer guide; Magneto 308/328 buying guide.",sourceUrl:"https://www.hagerty.co.uk/articles/buyers-guide-ferrari-308/",updated:TODAY()},
+    {id:"328-001",title:"328 — verify maintenance history and inspect corrosion/electrics",category:"Service planning",scope:"Ferrari 328 GTB/GTS; confirm exact year and market",type:"Independent buyer-guide research",status:"Secondary-source inspection prompt — verify applicable factory schedule",summary:"Buyer guides highlight the importance of documented timing-belt and valve-service history, plus inspection of corrosion-prone body areas, electrical/fuse-board condition, fuel-system operation and gearbox behavior when cold and warm. This is a records-and-condition prompt only: confirm exact maintenance requirements and any work method in Ferrari documentation for the individual vehicle.",source:"Magneto 308/328 buying guide; Classic Trader Ferrari 328 buying guide.",sourceUrl:"https://www.magnetomagazine.com/articles/1973-1989-ferrari-308-328-buying-guide-from-magneto-magazine/",updated:TODAY()},
+    {id:"348-001",title:"348 — inspect belt-service evidence, gearbox and chassis condition",category:"Transmission",scope:"Ferrari 348 tb/ts/GTB/GTS/Spider; early and late variants differ",type:"Independent buyer-guide research",status:"Secondary-source inspection prompt — exact variant review required",summary:"Independent buying guides call for careful review of belt-service invoices, clutch and gear-selection behavior, transfer-gear noises, suspension spring-platform condition and electronic climate-control operation. Early and later cars differ; no universal interval or repair diagnosis is asserted. Arrange a cold and warm road test and a specialist inspection of the actual variant.",source:"Auto Express Ferrari 348 buying guide; PistonHeads Ferrari 348 used buying guide.",sourceUrl:"https://www.autoexpress.co.uk/ferrari/104978/ferrari-348-buying-guide-and-review-1989-1994",updated:TODAY()},
+    {id:"f430-001",title:"F430 — inspect exhaust system and F1 transmission history",category:"Engine",scope:"Ferrari F430 Berlinetta/Spider/Scuderia/16M; distinguish manual and F1",type:"Independent specialist / buyer-guide research",status:"Secondary-source inspection prompt — specialist diagnostics required",summary:"Buyer guides identify exhaust manifold condition, exhaust brackets, F1 hydraulic pump and clutch history, engine mounts and suspension joints as areas for specialist assessment. On F1 cars, request appropriate Ferrari diagnostic readings and a hot road test; do not use generic clutch-wear figures as a pass/fail threshold. Verify any campaign or repair against the VIN and invoices.",source:"Octane Files F430 common-problems guide; Car Collector International F430 buyer guide.",sourceUrl:"https://www.octanefiles.com/guides/ferrari-f430-common-problems",updated:TODAY()},
+    {id:"458-001",title:"458 — check campaign history, DCT diagnostics and interior controls",category:"Transmission",scope:"Ferrari 458 Italia/Spider/Speciale/Speciale A; year and variant applicability matters",type:"Independent buyer-guide research",status:"Secondary-source inspection prompt — VIN/campaign verification required",summary:"Buyer guides recommend a Ferrari specialist diagnostic scan, a hot road test of the dual-clutch transmission, review of stored faults and inspection of switchgear/soft-touch surfaces. Confirm all applicable Ferrari campaigns and safety recalls for the exact VIN with Ferrari and NHTSA; model-year lists alone do not establish eligibility or completion. No universal gearbox wear limit is stated here.",source:"Car Collector International Ferrari 458 Italia buyer guide; Exotic Car Hacks 458 buyer guide; NHTSA recall lookup.",sourceUrl:"https://www.carcollectorinternational.com/research/buyers-guides/ferrari/458-italia",updated:TODAY()},
+    {id:"488-001",title:"488 — assess turbo system, DCT, brakes and recall history",category:"Diagnostics",scope:"Ferrari 488 GTB/Spider/Pista/Pista Spider; confirm exact variant",type:"Independent buyer-guide research",status:"Secondary-source inspection prompt — specialist diagnostics required",summary:"Buyer guides recommend checking turbo-related noises or boost faults, diagnostic clutch data, carbon-ceramic brake and tire condition, service history and open recalls. A long enough road test should include warm operation; Spider roof operation and sealing should be checked where fitted. Treat reported symptoms as prompts for diagnosis, not proof of a defect or a universal replacement threshold.",source:"Car Collector International Ferrari 488 buyer guide; Luxury Car Deals 488 buying guide (2026).",sourceUrl:"https://www.carcollectorinternational.com/research/buyers-guides/ferrari/488",updated:TODAY()},
+    {id:"roma-001",title:"Roma — inspect 12V battery, electronics and brake-cap campaign",category:"Electrical",scope:"Ferrari Roma coupe/Roma Spider; brake-cap recall applies only to identified VINs",type:"Government recall + independent buyer-guide research",status:"Recall applicability must be confirmed by VIN; other points are secondary-source prompts",summary:"NHTSA recall 22V-536 covers certain 2020–2022 Roma vehicles with a brake-fluid reservoir cap that may not vent correctly; check the exact VIN and obtain proof of completed remedy from Ferrari. Buyer guides also recommend checking 12V battery history, stored diagnostic faults, screens, haptic controls, lighting, central locking and roof operation on Spider models. Do not assume every model-year vehicle is affected.",source:"NHTSA Part 573 Safety Recall Report 22V-536; PistonHeads Ferrari Roma used buying guide.",sourceUrl:"https://static.nhtsa.gov/odi/rcl/2022/RCLRPT-22V536-4188.PDF",updated:TODAY()}
+  ];
+  let queryText = "", selectedCategory = "";
+  let data;
+  try { data = JSON.parse(localStorage.getItem(STORE) || "null") || {}; } catch (_) { data = {}; }
+  if (!Array.isArray(data.items)) data.items = [];
+  if (!Array.isArray(data.records)) data.records = [];
+  const knownIds = new Set(data.items.map(x => x && x.id).filter(Boolean));
+  let seedsAdded = false;
+  seed.forEach(item => {
+    if (!knownIds.has(item.id)) {
+      data.items.push(item);
+      knownIds.add(item.id);
+      seedsAdded = true;
+    }
+  });
+  data.items = data.items.map(x => ({sourceUrl:"", ...x}));
+  function persist() {
+    try { localStorage.setItem(STORE, JSON.stringify(data)); return true; }
+    catch (_) { alert("The browser could not save this data. Export a backup and check available browser storage."); return false; }
+  }
+  // Persist first-install seeds and safe additive migrations immediately.
+  if (seedsAdded) persist();
+  function esc(v) { return String(v == null ? "" : v).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+  function el(id) { return document.getElementById(id); }
+  function safeUrl(value) {
+    try { const u = new URL(value); return (u.protocol === "https:" || u.protocol === "http:") ? u.href : ""; }
+    catch (_) { return ""; }
+  }
+  function renderItems() {
+    const list = el("scItems"); if (!list) return;
+    const search = queryText.toLowerCase(), category = selectedCategory;
+    const items = data.items.filter(x => (!category || x.category === category) &&
+      (!search || [x.title,x.scope,x.category,x.summary,x.source,x.type,x.status].join(" ").toLowerCase().includes(search)));
+    list.innerHTML = items.length ? items.map(x => {
+      const url = safeUrl(x.sourceUrl);
+      return `<article class="sc-item"><div class="sc-item-head"><strong>${esc(x.title)}</strong><span class="pill pill-none">${esc(x.status || "Needs verification")}</span></div>
+      <div class="sc-meta">${esc(x.scope || "All models")} · ${esc(x.category)} · ${esc(x.type)}</div><p>${esc(x.summary)}</p>
+      <div class="sc-source">Source: ${esc(x.source || "Not supplied")} · Updated: ${esc(x.updated || "—")} ${url ? '· <a href="'+esc(url)+'" target="_blank" rel="noopener noreferrer">Open source</a>' : ""}</div></article>`;
+    }).join("") : '<div class="empty"><h3>No matching notes</h3><p>Try another search or add a new knowledge note.</p></div>';
+  }
+  function renderRecords() {
+    const target = el("scRecords"); if (!target) return;
+    target.innerHTML = data.records.length ? '<h3>Saved inspection notes</h3>' + data.records.slice().reverse().map(r =>
+      `<article class="sc-item"><strong>${esc(r.vehicle)} — ${esc(r.area)}</strong><div class="sc-meta">${esc(r.date)} · ${esc(r.odo || "Odometer not entered")}</div><p>${esc(r.notes)}</p></article>`).join("") : "";
+  }
+  function downloadBackup() {
+    const payload = {version:1,exportedAt:new Date().toISOString(),items:data.items,records:data.records};
+    const blob = new Blob([JSON.stringify(payload,null,2)], {type:"application/json"});
+    const url = URL.createObjectURL(blob), a = document.createElement("a");
+    a.href=url; a.download="cavallino-specialist-center.json"; a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+  function validImport(obj) {
+    const textFields = ["id","title","scope","category","type","status","summary","source","updated"];
+    return !!obj && obj.version === 1 && Array.isArray(obj.items) && Array.isArray(obj.records) &&
+      obj.items.every(x => x && textFields.every(k => typeof x[k] === "string") && x.id.trim() && x.title.trim() && x.summary.trim()) &&
+      obj.records.every(x => x && ["vehicle","date","odo","area","notes"].every(k => typeof x[k] === "string") && x.notes.trim());
+  }
+  function render() {
+    const root = el("specialistCenterContent"); if (!root) return;
+    root.innerHTML = `
+      <div class="panel">
+        <div class="panel-top"><div><h2>Ferrari Specialist Knowledge Center</h2><div class="panel-meta">Reference notes, inspection guidance and workshop records</div></div>
+          <div><button class="btn btn-ghost btn-sm" id="scImportBtn">Import backup</button> <button class="btn btn-ghost btn-sm" id="scExport">Export backup</button><input id="scImportFile" type="file" accept="application/json,.json" hidden></div>
+        </div>
+        <div class="sc-notice"><strong>Accuracy standard:</strong> Starter library contains general documentation guidance only. It does not assert model-specific defects, factory intervals, part numbers or repair procedures. Confirm every technical claim against the correct VIN, model year, market and authoritative source. Browser-local data does not sync to other devices.</div>
+        <div class="field-group"><div class="field"><label>Search knowledge</label><input id="scSearch" placeholder="Search model, system, topic or keyword"></div>
+          <div class="field"><label>Category</label><select id="scCategory"><option value="">All categories</option><option>Verification</option><option>Documentation</option><option>Service planning</option><option>Engine</option><option>Transmission</option><option>Chassis</option><option>Electrical</option><option>Body & interior</option><option>Diagnostics</option></select></div></div>
+        <div id="scItems"></div>
+      </div>
+      <div class="panel"><div class="panel-top"><div><h2>Official Reference Portals</h2><div class="panel-meta">Open the source directly; access and coverage vary</div></div></div>
+        <p><strong>Ferrari Technical Information:</strong> Factory service literature, workshop procedures, wiring diagrams, technical bulletins, maintenance, parts and campaign information. Subscription may be required.</p>
+        <p><a href="https://techinfo.ferrari.com/" target="_blank" rel="noopener noreferrer">Ferrari TechInfo portal</a> · <a href="https://techinfo.ferrari.com/recall" target="_blank" rel="noopener noreferrer">Ferrari VIN campaign lookup</a></p>
+        <p><strong>United States safety recalls:</strong> NHTSA VIN lookup and model-year recall data. A clean result is not proof that every manufacturer campaign or historical issue has been addressed.</p>
+        <p><a href="https://www.nhtsa.gov/recalls" target="_blank" rel="noopener noreferrer">NHTSA recall lookup</a> · <a href="https://www.nhtsa.gov/nhtsa-datasets-and-apis" target="_blank" rel="noopener noreferrer">NHTSA datasets and API documentation</a></p>
+      </div>
+      <div class="panel"><div class="panel-top"><div><h2>Add a Knowledge Note</h2><div class="panel-meta">Unverified submissions stay clearly marked until reviewed</div></div></div>
+        <div class="field-group"><div class="field"><label>Title *</label><input id="scTitle" maxlength="160" placeholder="e.g. F430 cooling system inspection notes"></div><div class="field"><label>Model / scope</label><input id="scScope" maxlength="120" placeholder="e.g. F430, 2005–2009"></div></div>
+        <div class="field-group"><div class="field"><label>Category</label><select id="scNewCategory"><option>Verification</option><option>Documentation</option><option>Service planning</option><option>Engine</option><option>Transmission</option><option>Chassis</option><option>Electrical</option><option>Body & interior</option><option>Diagnostics</option></select></div><div class="field"><label>Guidance type</label><select id="scType"><option>Factory documentation</option><option>Campaign / recall</option><option>Independent specialist recommendation</option><option>Observed issue — needs verification</option><option>Diagnostic procedure — needs verification</option><option>General process</option></select></div></div>
+        <div class="field-group"><div class="field"><label>Note / procedure summary *</label><textarea id="scSummary" maxlength="5000" placeholder="Describe the finding or guidance. Include conditions, limits and verification status."></textarea></div></div>
+        <div class="field-group"><div class="field"><label>Source / reference title</label><input id="scSource" maxlength="240" placeholder="Document title, bulletin number, invoice or specialist"></div><div class="field"><label>Source URL (optional)</label><input id="scSourceUrl" type="url" placeholder="https://..."></div></div>
+        <div class="modal-actions"><button class="btn btn-brass" id="scAdd">Save Knowledge Note</button></div>
+      </div>
+      <div class="panel"><div class="panel-top"><div><h2>Diagnostic & Inspection Notes</h2><div class="panel-meta">Record observations without treating an unconfirmed diagnosis as fact</div></div></div>
+        <div class="field-group"><div class="field"><label>Vehicle</label><input id="scVehicle" maxlength="180" placeholder="Model, year and VIN (if appropriate)"></div><div class="field"><label>Date</label><input id="scDate" type="date" value="${TODAY()}"></div></div>
+        <div class="field-group"><div class="field"><label>Odometer</label><input id="scOdo" maxlength="40" placeholder="Mileage"></div><div class="field"><label>System / area</label><input id="scArea" maxlength="120" placeholder="Engine, suspension, electrical..."></div></div>
+        <div class="field-group"><div class="field"><label>Observation, test results and next action</label><textarea id="scRecord" maxlength="8000" placeholder="Symptoms, conditions, fault codes, measurements, tests performed, results and recommended follow-up."></textarea></div></div>
+        <div class="modal-actions"><button class="btn btn-brass" id="scSaveRecord">Save Inspection Note</button></div><div id="scRecords"></div>
+      </div>`;
+    el("scSearch").value=queryText; el("scCategory").value=selectedCategory;
+    renderItems(); renderRecords();
+    el("scSearch").oninput=()=>{queryText=el("scSearch").value;renderItems();};
+    el("scCategory").onchange=()=>{selectedCategory=el("scCategory").value;renderItems();};
+    el("scAdd").onclick=()=>{
+      const title=el("scTitle").value.trim(), summary=el("scSummary").value.trim();
+      if(!title||!summary){alert("Please enter a title and note summary.");return;}
+      const rawUrl=el("scSourceUrl").value.trim(), sourceUrl=rawUrl?safeUrl(rawUrl):"";
+      if(rawUrl&&!sourceUrl){alert("Please enter a valid http or https source URL.");return;}
+      data.items.push({id:"sc-"+Date.now(),title,scope:el("scScope").value.trim()||"Unspecified",category:el("scNewCategory").value,type:el("scType").value,status:"User-added — verify source",summary,source:el("scSource").value.trim()||"Not supplied",sourceUrl,updated:TODAY()});
+      if(persist()){render();if(typeof toast==="function")toast("Knowledge note saved");}
+    };
+    el("scSaveRecord").onclick=()=>{
+      const notes=el("scRecord").value.trim(); if(!notes){alert("Please enter the inspection observation or test results.");return;}
+      const date=el("scDate").value;
+      if(!date){alert("Please select the inspection date.");return;}
+      data.records.push({vehicle:el("scVehicle").value.trim()||"Vehicle not specified",date,odo:el("scOdo").value.trim(),area:el("scArea").value.trim()||"Unspecified",notes});
+      if(persist()){render();if(typeof toast==="function")toast("Inspection note saved");}
+    };
+    el("scExport").onclick=downloadBackup;
+    el("scImportBtn").onclick=()=>el("scImportFile").click();
+    el("scImportFile").onchange=async event=>{
+      const file=event.target.files && event.target.files[0]; if(!file)return;
+      try {
+        const imported=JSON.parse(await file.text());
+        if(!validImport(imported)){alert("This file does not match the supported Specialist Center backup format. Nothing was changed.");return;}
+        if(!confirm("Import and merge these notes with the current browser data? Existing records will be kept; duplicate IDs will be skipped."))return;
+        const ids=new Set(data.items.map(x=>x.id));
+        imported.items.forEach(x=>{if(!ids.has(x.id)){data.items.push({...x,sourceUrl:safeUrl(x.sourceUrl||"")});ids.add(x.id);}});
+        data.records=data.records.concat(imported.records);
+        if(persist()){render();if(typeof toast==="function")toast("Backup imported");}
+      } catch(_){alert("Could not read this backup file. Nothing was changed.");}
+      finally {event.target.value="";}
+    };
+  }
+  window.renderSpecialistCenter=render;
+})();
