@@ -44,6 +44,10 @@ assert.match(serviceHistory, /function importFullBackup/, "full local data backu
 assert.match(serviceHistory, /validFullBackup/, "backup restore must validate data before writing");
 assert.match(serviceHistory, /cavallino_specialist_center_v1/, "full backup should include Specialist Center data");
 assert.match(serviceHistory, /cavallino_ppi_v1/, "full backup should include inspection data");
+assert.match(serviceHistory, /function addMaintenanceReminder/, "owners should be able to create personal maintenance reminders");
+assert.match(serviceHistory, /function updateReminder/, "personal maintenance reminders should be manageable");
+assert.match(serviceHistory, /maintenanceReminders/, "personal reminders should be saved with the selected vehicle");
+assert.match(serviceHistory, /not factory intervals/, "personal reminders must be distinguished from factory requirements");
 
 for (const asset of ["./index.html", "./manifest.json", "./specialist-center.js", "./prepurchase-inspection.js", "./inspection-photo-evidence.js", "./service-history-enhancements.js"]) {
   assert.ok(sw.includes("'" + asset + "'"), "service worker must cache " + asset);
