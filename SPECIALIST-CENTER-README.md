@@ -30,13 +30,20 @@ Do not infer factory requirements from forum anecdotes or aftermarket maintenanc
 
 ## Initial sourced research entries
 
-The initial F355 and 360 entries are deliberately written as inspection prompts, not factory specifications:
+The initial model entries are deliberately written as inspection prompts, not factory specifications:
+- 308 body/chassis corrosion, variant-specific service history and specialist inspection (Hagerty and Magneto buyer guides).
+- 328 maintenance-history, body/electrical and gearbox inspection prompts (Magneto and Classic Trader).
+- 348 belt-service evidence, gearbox and chassis inspection prompts (Auto Express and PistonHeads).
 - F355 valve-guide history and oil-consumption assessment (Hagerty and Car and Driver buyer-guide sources).
 - F355 exhaust-manifold/catalyst inspection (Hagerty and Car and Driver).
 - F355 timing-belt history and scope verification (sources differ on service method; no interval is asserted).
 - 360 camshaft variator campaign screening note based on a copy of Ferrari North America Technical Information Bulletin 1232 / Service Campaign 97. The copy states an engine-number/VIN range; current VIN applicability and completion must be checked with Ferrari.
 - 360 clutch/F1-system condition and diagnostic history.
 - 360 suspension ball-joint condition.
+- F430 exhaust and F1-system diagnostic history (Octane Files and buyer-guide sources).
+- 458 DCT diagnostics, hot road-test and campaign verification (buyer-guide sources; exact VIN must be checked).
+- 488 turbo, DCT, brake and recall-history inspection (buyer-guide sources).
+- Roma battery/electrical function checks and VIN verification for NHTSA recall 22V-536 (NHTSA recall report and buyer-guide sources).
 
 These are labelled secondary-source research or historical bulletin-copy references. They are not factory-approved repair instructions. The seed library now merges missing seed IDs into existing local data without overwriting user-created entries, so current users receive the new notes after updating the app.
 
