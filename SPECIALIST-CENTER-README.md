@@ -6,7 +6,7 @@ The Specialist Center is integrated as a separate tab in the existing single-pag
 - User-entered knowledge notes with a source title, optional HTTP(S) source link, and an explicit unverified status.
 - Diagnostic and inspection note capture.
 - JSON backup export and validated JSON import/merge (duplicate knowledge-note IDs are skipped).
-- A dedicated Pre-Purchase tab with a general 25-point condition checklist, VIN/year/market/variant capture, condition ratings, findings and evidence-reference fields.
+- A dedicated Pre-Purchase tab with a general 27-point condition checklist, VIN/year/market/variant capture, condition ratings, findings and evidence-reference fields.
 - Saved PPI reports with printable buyer-facing summaries, plus isolated JSON backup export/import and duplicate-ID protection.
 - Direct links to Ferrari TechInfo, Ferrari's VIN campaign lookup, and NHTSA recall resources.
 - A separate browser storage key: `cavallino_specialist_center_v1`.
