@@ -26,6 +26,18 @@ Before publishing a model-specific entry:
 
 Do not infer factory requirements from forum anecdotes or aftermarket maintenance schedules. Ferrari TechInfo describes factory service literature, workshop procedures, wiring diagrams, technical bulletins, campaign information, maintenance and parts information; subscription/access conditions apply. NHTSA's public VIN lookup and model-year recall data are useful U.S. safety-recall references, not a complete Ferrari campaign or repair-history database.
 
+## Initial sourced research entries
+
+The initial F355 and 360 entries are deliberately written as inspection prompts, not factory specifications:
+- F355 valve-guide history and oil-consumption assessment (Hagerty and Car and Driver buyer-guide sources).
+- F355 exhaust-manifold/catalyst inspection (Hagerty and Car and Driver).
+- F355 timing-belt history and scope verification (sources differ on service method; no interval is asserted).
+- 360 camshaft variator campaign screening note based on a copy of Ferrari North America Technical Information Bulletin 1232 / Service Campaign 97. The copy states an engine-number/VIN range; current VIN applicability and completion must be checked with Ferrari.
+- 360 clutch/F1-system condition and diagnostic history.
+- 360 suspension ball-joint condition.
+
+These are labelled secondary-source research or historical bulletin-copy references. They are not factory-approved repair instructions. The seed library now merges missing seed IDs into existing local data without overwriting user-created entries, so current users receive the new notes after updating the app.
+
 ## Files
 - `specialist-center.js`: UI, validation, backup import/export and local-storage module.
 - `specialist-center.schema.json`: JSON Schema for exported data.
