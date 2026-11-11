@@ -13,6 +13,7 @@ const modelEncyclopedia = fs.readFileSync("model-encyclopedia.js", "utf8");
 const modelPpiGuidance = fs.readFileSync("model-ppi-guidance.js", "utf8");
 const ownerDashboard = fs.readFileSync("owner-dashboard.js", "utf8");
 const referenceRegister = fs.readFileSync("maintenance-reference-register.js", "utf8");
+const workshopReport = fs.readFileSync("workshop-report.js", "utf8");
 
 const tabs = [...html.matchAll(/class="tab[^"]*"[^>]*data-view="([^"]+)"/g)].map(m => m[1]);
 assert.ok(tabs.length >= 6, "the app should expose its core and specialist tabs");
@@ -65,6 +66,13 @@ assert.match(ownerDashboard, /Reminders due/, "owner dashboard should summarize 
 assert.match(ownerDashboard, /Local records/, "owner dashboard should disclose local data scope");
 assert.match(html, /data-view="reference"/, "Reference Register tab should exist");
 assert.match(html, /id="referenceRegisterContent"/, "Reference Register mount point should exist");
+assert.match(html, /data-view="workshop"/, "Workshop Report tab should exist");
+assert.match(html, /id="workshopReportContent"/, "Workshop Report mount point should exist");
+assert.match(html, /window.CavallinoApp = \{getState:/, "app should expose read-only state access for reports");
+assert.match(workshopReport, /function printReport/, "Workshop Report should generate printable reports");
+assert.match(workshopReport, /Recorded service history/, "Workshop Report should include recorded service history");
+assert.match(workshopReport, /Recorded originality \/ provenance/, "Workshop Report should include optional provenance data");
+assert.match(workshopReport, /does not independently inspect/, "Workshop Report should disclose its limitations");
 assert.match(referenceRegister, /cavallino_reference_register_v1/, "Reference Register should use an isolated storage namespace");
 assert.match(referenceRegister, /Factory maintenance requirement/, "Reference Register should distinguish factory requirements");
 assert.match(referenceRegister, /Verified for stated applicability/, "Reference Register should track applicability verification");
@@ -75,7 +83,7 @@ assert.match(referenceRegister, /importSpecialistResearch/, "Reference Register 
 assert.match(referenceRegister, /Source recorded — applicability pending/, "Imported research should remain unverified for VIN applicability");
 assert.match(html, /grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/, "mobile navigation should expose all tabs in a two-column grid");
 
-for (const asset of ["./index.html", "./manifest.json", "./specialist-center.js", "./prepurchase-inspection.js", "./inspection-photo-evidence.js", "./service-history-enhancements.js", "./model-encyclopedia.js", "./model-ppi-guidance.js", "./owner-dashboard.js", "./maintenance-reference-register.js"]) {
+for (const asset of ["./index.html", "./manifest.json", "./specialist-center.js", "./prepurchase-inspection.js", "./inspection-photo-evidence.js", "./service-history-enhancements.js", "./model-encyclopedia.js", "./model-ppi-guidance.js", "./owner-dashboard.js", "./maintenance-reference-register.js", "./workshop-report.js"]) {
   assert.ok(sw.includes("'" + asset + "'"), "service worker must cache " + asset);
 }
 assert.match(specialist, /cavallino_specialist_center_v1/, "Specialist Center must use its isolated storage key");
