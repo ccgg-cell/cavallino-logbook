@@ -95,12 +95,44 @@
     if (old) data.entries = data.entries.map(x => x.id === editingId ? entry : x); else data.entries.push(entry);
     if (persist()) { clearForm(); renderEntries(); if (typeof toast === "function") toast(old ? "Reference updated" : "Reference saved"); }
   }
+  function importSpecialistResearch() {
+    let specialist;
+    try { specialist = JSON.parse(localStorage.getItem("cavallino_specialist_center_v1") || "null"); }
+    catch (_) { specialist = null; }
+    const notes = specialist && Array.isArray(specialist.items) ? specialist.items : [];
+    const modelNotes = notes.filter(x => x && typeof x.id === "string" && typeof x.scope === "string" && /^Ferrari /.test(x.scope));
+    if (!modelNotes.length) { alert("No model-specific Specialist Center notes were found on this device. Open Specialist Center first, then try again."); return; }
+    const ids = new Set(data.entries.map(x => x.id));
+    let added = 0;
+    modelNotes.forEach(x => {
+      const id = "specialist-" + x.id;
+      if (ids.has(id)) return;
+      const source = String(x.source || "");
+      const isRecall = /NHTSA|recall/i.test(source) && /Roma|22V-536/i.test(x.title + " " + x.summary);
+      const isCampaign = /campaign|technical information bulletin|TSB/i.test(x.title + " " + source);
+      const recordType = isRecall ? "Government safety recall" : isCampaign ? "Manufacturer campaign / recall" : "Known-issue research";
+      const entry = {
+        id, title:String(x.title || "Ferrari research note"), recordType,
+        model:String(x.scope || ""), year:"", market:"", variant:"",
+        applicability:String(x.scope || "Confirm exact VIN, year, market and variant"),
+        system:String(x.category || ""), summary:String(x.summary || ""),
+        evidenceType:String(x.type || "Secondary-source research"),
+        sourceTitle:source, sourceUrl:safeUrl(x.sourceUrl),
+        publicationDate:"", checkedDate:today(), status:"Source recorded — applicability pending",
+        reviewer:"", notes:"Imported from the on-device Specialist Center. Original note status: " + String(x.status || "Not stated") + ". This is a research prompt, not a factory specification or proof of VIN applicability. Confirm source, current campaign status and individual vehicle applicability before acting.",
+        createdAt:new Date().toISOString(), updatedAt:new Date().toISOString()
+      };
+      if (validEntry(entry)) { data.entries.push(entry); ids.add(id); added++; }
+    });
+    if (added && persist()) { filter = "All"; query = ""; renderEntries(); alert(added + " source-linked model research entries imported. They remain marked as applicability pending."); }
+    else if (!added) alert("All available model research notes are already in the Reference Register.");
+  }
   function render() {
     const root = $(rootId); if (!root) return;
     root.innerHTML = `
       <div class="panel">
         <div class="panel-top"><div><h2>Maintenance &amp; Evidence Register</h2><div class="panel-meta">A structured record of what is known, where it came from and what still needs verification</div></div>
-          <div><button class="btn btn-ghost btn-sm" id="rrImportBtn">Import JSON</button> <button class="btn btn-ghost btn-sm" id="rrExport">Export JSON</button><input id="rrImportFile" type="file" accept="application/json,.json" hidden></div>
+          <div><button class="btn btn-ghost btn-sm" id="rrSeedImport">Import specialist research</button> <button class="btn btn-ghost btn-sm" id="rrImportBtn">Import JSON</button> <button class="btn btn-ghost btn-sm" id="rrExport">Export JSON</button><input id="rrImportFile" type="file" accept="application/json,.json" hidden></div>
         </div>
         <div class="rr-notice"><strong>Important:</strong> This is an evidence register, not a live Ferrari technical database. It contains no pre-filled service intervals or repair specifications. A record marked verified means its author has recorded a source and applicability review; it is not an independent certification. Confirm VIN, model year, market, variant and current factory information before acting. Safety-critical work belongs with a qualified Ferrari specialist.</div>
         <div class="field-group"><div class="field"><label>Search entries</label><input id="rrSearch" placeholder="Model, VIN range, system, source or keyword"></div><div class="field"><label>Record type</label><select id="rrFilter"><option>All</option><option>Factory maintenance requirement</option><option>Manufacturer campaign / recall</option><option>Government safety recall</option><option>Independent specialist recommendation</option><option>Known-issue research</option><option>Owner observation</option></select></div></div>
@@ -132,6 +164,7 @@
     $("rrSave").onclick = saveEntry;
     $("rrCancel").onclick = clearForm;
     $("rrExport").onclick = downloadBackup;
+    $("rrSeedImport").onclick = importSpecialistResearch;
     $("rrImportBtn").onclick = () => $("rrImportFile").click();
     $("rrEntries").onclick = event => {
       const edit = event.target.closest("[data-edit]"), del = event.target.closest("[data-delete]");

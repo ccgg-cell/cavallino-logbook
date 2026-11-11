@@ -147,7 +147,14 @@ footer{text-align:center;padding:24px;color:var(--ink-dim);font-size:11px;border
 
 @media(max-width:580px){
   .header{flex-direction:column;align-items:flex-start;}
-  .tabs .tab{padding:10px 12px;font-size:12px;}
+  .tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;padding:8px 0;margin-top:16px;border-bottom:1px solid var(--hairline);}
+  .tabs .tab{display:flex;align-items:center;justify-content:center;text-align:center;white-space:normal;overflow-wrap:anywhere;min-height:54px;padding:10px 8px;margin:0;border:1px solid var(--hairline);border-radius:4px;font-size:11px;line-height:1.35;letter-spacing:.035em;}
+  .tabs .tab.active{border-color:var(--oxblood-bright);background:rgba(140,42,48,.12);}
+  .view{padding-top:18px;}
+  .panel{padding:18px 16px;}
+  .panel-top>div:last-child{display:flex;flex-wrap:wrap;gap:8px;}
+  .field-group{gap:10px;}
+  .field{min-width: min(100%, 145px);}
 }
 
 /* SPECIALIST CENTER */
