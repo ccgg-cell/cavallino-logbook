@@ -1,7 +1,7 @@
 // Cavallino Logbook — Service Worker
 // Caches the app shell so it works offline and installs as a real PWA.
 
-const CACHE_NAME = 'cavallino-logbook-v9';
+const CACHE_NAME = 'cavallino-logbook-v10';
 const ASSETS = [
   './',
   './index.html',
@@ -11,7 +11,8 @@ const ASSETS = [
   './inspection-photo-evidence.js',
   './service-history-enhancements.js',
   './model-encyclopedia.js',
-  './model-ppi-guidance.js'
+  './model-ppi-guidance.js',
+  './owner-dashboard.js'
 ];
 
 self.addEventListener('install', (event) => {
