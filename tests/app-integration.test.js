@@ -71,6 +71,9 @@ assert.match(referenceRegister, /Verified for stated applicability/, "Reference 
 assert.match(referenceRegister, /function downloadBackup/, "Reference Register should export JSON backups");
 assert.match(referenceRegister, /Merge these entries/, "Reference Register import should merge without overwriting duplicates");
 assert.match(referenceRegister, /NHTSA/, "Reference Register should explain official recall lookup limitations");
+assert.match(referenceRegister, /importSpecialistResearch/, "Reference Register should import model-specific Specialist Center research");
+assert.match(referenceRegister, /Source recorded — applicability pending/, "Imported research should remain unverified for VIN applicability");
+assert.match(html, /grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/, "mobile navigation should expose all tabs in a two-column grid");
 
 for (const asset of ["./index.html", "./manifest.json", "./specialist-center.js", "./prepurchase-inspection.js", "./inspection-photo-evidence.js", "./service-history-enhancements.js", "./model-encyclopedia.js", "./model-ppi-guidance.js", "./owner-dashboard.js", "./maintenance-reference-register.js"]) {
   assert.ok(sw.includes("'" + asset + "'"), "service worker must cache " + asset);
