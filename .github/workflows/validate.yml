@@ -11,6 +11,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Check Stripe billing function JavaScript syntax
+        run: |
+          node --check netlify/functions/_billing.js
+          node --check netlify/functions/create-checkout-session.js
+          node --check netlify/functions/verify-checkout-session.js
+          node --check netlify/functions/subscription-status.js
+          node --check netlify/functions/customer-portal.js
       - name: Check Specialist Center JavaScript syntax
         run: node --check specialist-center.js
       - name: Check Pre-Purchase Inspection JavaScript syntax

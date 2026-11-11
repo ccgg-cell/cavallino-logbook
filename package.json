@@ -1,0 +1,13 @@
+{
+  "name": "cavallino-logbook",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cavallino Logbook Stripe subscription functions",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^9.0.2",
+    "stripe": "^17.7.0"
+  }
+}
