@@ -89,3 +89,8 @@ The Specialist Center now includes a searchable first-edition model encyclopedia
 ## Model-specific Pre-Purchase guidance
 
 The PPI workspace can use the Model Encyclopedia to display identification checks, model-specific inspection research prompts and source links for the selected Ferrari family. The user may copy those prompts into the report summary. This is supplementary research, not a factory checklist or a substitute for a specialist inspection. Confirm VIN, build date, market, variant and applicable factory information before acting.
+
+
+## Owner Dashboard
+
+The Garage view includes a read-only dashboard for the selected vehicle. It summarizes entered service records, recorded service spend, owner-defined reminders and the count of saved inspection reports and Specialist Center notes. Figures reflect only data stored in the current browser and are not an independent valuation, service assessment or cloud-synced record.
