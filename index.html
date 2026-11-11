@@ -200,6 +200,7 @@ footer{text-align:center;padding:24px;color:var(--ink-dim);font-size:11px;border
     <button class="tab" data-view="specialist">🔧 Specialist Center</button>
     <button class="tab" data-view="prepurchase">🔍 Pre-Purchase</button>
     <button class="tab" data-view="reference">📚 Reference Register</button>
+    <button class="tab" data-view="workshop">🧾 Workshop Report</button>
   </div>
 
   <!-- GARAGE VIEW -->
@@ -229,6 +230,7 @@ footer{text-align:center;padding:24px;color:var(--ink-dim);font-size:11px;border
   <div class="view" id="view-specialist"><div id="specialistCenterContent"></div></div>
   <div class="view" id="view-prepurchase"><div id="prePurchaseContent"></div></div>
   <div class="view" id="view-reference"><div id="referenceRegisterContent"></div></div>
+  <div class="view" id="view-workshop"><div id="workshopReportContent"></div></div>
 
   <footer>Cavallino Logbook — your data is stored privately on this device. Not affiliated with any automobile manufacturer.</footer>
 </div>
@@ -732,8 +734,10 @@ document.querySelectorAll('.overlay').forEach(o=>{
   o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');});
 });
 
+window.CavallinoApp = {getState:()=>state,getSelectedId:()=>selectedId};
+
 /* ====== INIT ====== */
-function renderAll(){renderHeader();renderGarage();renderSchedule();renderLedger();renderProvenance();if(window.renderSpecialistCenter)window.renderSpecialistCenter();if(window.renderPrePurchaseInspection)window.renderPrePurchaseInspection();if(window.renderReferenceRegister)window.renderReferenceRegister();}
+function renderAll(){renderHeader();renderGarage();renderSchedule();renderLedger();renderProvenance();if(window.renderWorkshopReport)window.renderWorkshopReport();if(window.renderSpecialistCenter)window.renderSpecialistCenter();if(window.renderPrePurchaseInspection)window.renderPrePurchaseInspection();if(window.renderReferenceRegister)window.renderReferenceRegister();}
 renderAll();
 </script>
 <script src="prepurchase-inspection.js"></script>
