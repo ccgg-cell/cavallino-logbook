@@ -346,6 +346,10 @@ function save(){localStorage.setItem(KEY,JSON.stringify(state));}
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
 
 let state = load();
+// Pro access is never trusted from local app data. It is granted only by the signed Stripe entitlement token.
+state.pro = false;
+const BILLING_TOKEN_KEY = 'cavallino_stripe_entitlement_v1';
+let billingBusy = false;
 
 // Seed demo data if empty
 if(!state.cars.length){
@@ -543,8 +547,9 @@ function renderProvenance(){
       <div class="gate-crown">Pro Feature</div>
       <h3>Provenance Report &amp; Originality Tracker</h3>
       <p>Build an originality checklist for all major components, then export a clean PDF that documents your car's full service history and matching-numbers status — the kind of paperwork that moves price at auction or private sale.</p>
-      <button class="btn btn-brass" onclick="unlockPro()">Unlock Pro — $7/mo</button>
-      <p style="margin-top:14px;font-size:12px;color:var(--ink-dim)">or <a href="#" onclick="unlockProFree(event)">try it free for testing</a></p>
+      <button class="btn btn-brass" id="proSubscribeButton" onclick="unlockPro()">Subscribe — $7/month</button>
+      <p style="margin-top:14px;font-size:12px;color:var(--ink-dim)">Secure recurring billing through Stripe. Cancel any time.</p>
+      <p id="proBillingStatus" style="margin-top:8px;font-size:12px;color:var(--ink-dim)"></p>
     </div>`;
     return;
   }
@@ -566,7 +571,7 @@ function renderProvenance(){
   el.innerHTML=`<div class="panel">
     <div class="panel-top">
       <div><h2>${car.year} ${car.model} — Provenance</h2><div class="panel-meta">Originality checklist · feeds directly into PDF export</div></div>
-      <button class="btn btn-brass btn-sm" onclick="exportPDF()">⬇ Export PDF Report</button>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-ghost btn-sm" onclick="manageProSubscription()">Manage subscription</button><button class="btn btn-brass btn-sm" onclick="exportPDF()">⬇ Export PDF Report</button></div>
     </div>
     <div class="orig-grid">${grid}</div>
   </div>`;
@@ -628,17 +633,72 @@ function setOrig(carId,part,val){
   toast('Originality updated');
 }
 
-/* ====== PRO ====== */
-function unlockPro(){
-  window.location.href = 'https://buy.stripe.com/dRmdRb6TNal20lM3Pw0kE00';
+/* ====== VERIFIED STRIPE PRO ACCESS ====== */
+async function billingRequest(endpoint, body){
+  const response = await fetch('/.netlify/functions/' + endpoint, {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(body||{})
+  });
+  const data = await response.json().catch(()=>({}));
+  if(!response.ok) throw new Error(data.error || 'Billing request failed. Please try again.');
+  return data;
 }
-function unlockProFree(e){e.preventDefault();state.pro=true;save();renderProvenance();}
-
-// On return from successful Stripe payment, unlock Pro automatically
-if(new URLSearchParams(window.location.search).get('pro')==='success'){
-  state.pro=true;save();
-  history.replaceState(null,'',window.location.pathname);
-  setTimeout(()=>{ showTab('provenance'); toast('Pro unlocked — welcome to Cavallino Logbook Pro!'); },400);
+function getBillingToken(){try{return localStorage.getItem(BILLING_TOKEN_KEY)||'';}catch(e){return '';}}
+function setBillingToken(token){try{if(token)localStorage.setItem(BILLING_TOKEN_KEY,token);else localStorage.removeItem(BILLING_TOKEN_KEY);}catch(e){}}
+async function unlockPro(){
+  if(billingBusy)return;
+  billingBusy=true;
+  const button=document.getElementById('proSubscribeButton');
+  if(button){button.disabled=true;button.textContent='Connecting to Stripe…';}
+  try{
+    const data=await billingRequest('create-checkout-session',{});
+    if(!data.url)throw new Error('Stripe did not return a checkout link.');
+    window.location.assign(data.url);
+  }catch(error){
+    toast(error.message||'Unable to start checkout.');
+    if(button){button.disabled=false;button.textContent='Subscribe — $7/month';}
+    billingBusy=false;
+  }
+}
+async function refreshProAccess(){
+  const params=new URLSearchParams(window.location.search);
+  const checkoutSession=params.get('session_id');
+  const isCheckoutSuccess=params.get('checkout')==='success';
+  try{
+    if(isCheckoutSuccess && checkoutSession){
+      const verified=await billingRequest('verify-checkout-session',{sessionId:checkoutSession});
+      if(!verified.token)throw new Error('Stripe payment could not be verified.');
+      setBillingToken(verified.token);
+      history.replaceState(null,'',window.location.pathname+window.location.hash);
+      toast('Your Pro subscription is active. Welcome!');
+    }
+    const token=getBillingToken();
+    if(!token){state.pro=false;renderProvenance();return;}
+    const status=await billingRequest('subscription-status',{token});
+    if(status.token)setBillingToken(status.token);
+    state.pro=!!status.active;
+    if(!state.pro)setBillingToken('');
+    renderProvenance();
+    if(status.active && status.currentPeriodEnd){
+      const el=document.getElementById('proBillingStatus');
+      if(el)el.textContent='Pro active · renews '+new Date(status.currentPeriodEnd*1000).toLocaleDateString();
+    }
+  }catch(error){
+    state.pro=false;
+    renderProvenance();
+    const el=document.getElementById('proBillingStatus');
+    if(el)el.textContent=error.message||'Unable to verify subscription right now.';
+  }
+}
+async function manageProSubscription(){
+  const token=getBillingToken();
+  if(!token){toast('No active Pro subscription was found.');return;}
+  try{
+    const data=await billingRequest('customer-portal',{token});
+    if(data.url)window.location.assign(data.url);
+    else throw new Error('Stripe did not return a customer portal link.');
+  }catch(error){toast(error.message||'Unable to open subscription management.');}
 }
 
 /* ====== MODALS ====== */
@@ -680,7 +740,8 @@ function saveCar(){
   state.cars.push(car);
   selectedId=car.id;
   save();closeOverlay('addCarOverlay');
-  renderAll();toast(`${car.year} ${car.model} added to garage`);
+  renderAll();
+refreshProAccess();toast(`${car.year} ${car.model} added to garage`);
 }
 
 function saveService(){
