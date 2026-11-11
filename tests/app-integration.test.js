@@ -11,6 +11,7 @@ const photos = fs.readFileSync("inspection-photo-evidence.js", "utf8");
 const serviceHistory = fs.readFileSync("service-history-enhancements.js", "utf8");
 const modelEncyclopedia = fs.readFileSync("model-encyclopedia.js", "utf8");
 const modelPpiGuidance = fs.readFileSync("model-ppi-guidance.js", "utf8");
+const ownerDashboard = fs.readFileSync("owner-dashboard.js", "utf8");
 
 const tabs = [...html.matchAll(/class="tab[^"]*"[^>]*data-view="([^"]+)"/g)].map(m => m[1]);
 assert.ok(tabs.length >= 6, "the app should expose its core and specialist tabs");
@@ -57,8 +58,12 @@ assert.match(modelEncyclopedia, /Research sources/, "profiles must link research
 assert.match(modelEncyclopedia, /CavallinoModelEncyclopedia/, "model profiles should be exposed to the PPI guidance module");
 assert.match(modelPpiGuidance, /Model-specific research prompts/, "PPI should display model-specific research prompts");
 assert.match(modelPpiGuidance, /Add prompts to report summary/, "PPI prompts should be optionally included in report summary");
+assert.match(ownerDashboard, /Owner Dashboard/, "Garage should expose an owner dashboard");
+assert.match(ownerDashboard, /Documented spend/, "owner dashboard should summarize entered service costs");
+assert.match(ownerDashboard, /Reminders due/, "owner dashboard should summarize personal reminders");
+assert.match(ownerDashboard, /Local records/, "owner dashboard should disclose local data scope");
 
-for (const asset of ["./index.html", "./manifest.json", "./specialist-center.js", "./prepurchase-inspection.js", "./inspection-photo-evidence.js", "./service-history-enhancements.js", "./model-encyclopedia.js", "./model-ppi-guidance.js"]) {
+for (const asset of ["./index.html", "./manifest.json", "./specialist-center.js", "./prepurchase-inspection.js", "./inspection-photo-evidence.js", "./service-history-enhancements.js", "./model-encyclopedia.js", "./model-ppi-guidance.js", "./owner-dashboard.js"]) {
   assert.ok(sw.includes("'" + asset + "'"), "service worker must cache " + asset);
 }
 assert.match(specialist, /cavallino_specialist_center_v1/, "Specialist Center must use its isolated storage key");
