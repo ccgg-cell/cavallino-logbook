@@ -25,6 +25,8 @@ jobs:
         run: node --check model-ppi-guidance.js
       - name: Check owner dashboard JavaScript syntax
         run: node --check owner-dashboard.js
+      - name: Check maintenance reference register JavaScript syntax
+        run: node --check maintenance-reference-register.js
       - name: Run app integration smoke checks
         run: node tests/app-integration.test.js
       - name: Run Pre-Purchase Inspection regression tests

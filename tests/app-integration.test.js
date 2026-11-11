@@ -12,6 +12,7 @@ const serviceHistory = fs.readFileSync("service-history-enhancements.js", "utf8"
 const modelEncyclopedia = fs.readFileSync("model-encyclopedia.js", "utf8");
 const modelPpiGuidance = fs.readFileSync("model-ppi-guidance.js", "utf8");
 const ownerDashboard = fs.readFileSync("owner-dashboard.js", "utf8");
+const referenceRegister = fs.readFileSync("maintenance-reference-register.js", "utf8");
 
 const tabs = [...html.matchAll(/class="tab[^"]*"[^>]*data-view="([^"]+)"/g)].map(m => m[1]);
 assert.ok(tabs.length >= 6, "the app should expose its core and specialist tabs");
@@ -62,8 +63,16 @@ assert.match(ownerDashboard, /Owner Dashboard/, "Garage should expose an owner d
 assert.match(ownerDashboard, /Documented spend/, "owner dashboard should summarize entered service costs");
 assert.match(ownerDashboard, /Reminders due/, "owner dashboard should summarize personal reminders");
 assert.match(ownerDashboard, /Local records/, "owner dashboard should disclose local data scope");
+assert.match(html, /data-view="reference"/, "Reference Register tab should exist");
+assert.match(html, /id="referenceRegisterContent"/, "Reference Register mount point should exist");
+assert.match(referenceRegister, /cavallino_reference_register_v1/, "Reference Register should use an isolated storage namespace");
+assert.match(referenceRegister, /Factory maintenance requirement/, "Reference Register should distinguish factory requirements");
+assert.match(referenceRegister, /Verified for stated applicability/, "Reference Register should track applicability verification");
+assert.match(referenceRegister, /function downloadBackup/, "Reference Register should export JSON backups");
+assert.match(referenceRegister, /Merge these entries/, "Reference Register import should merge without overwriting duplicates");
+assert.match(referenceRegister, /NHTSA/, "Reference Register should explain official recall lookup limitations");
 
-for (const asset of ["./index.html", "./manifest.json", "./specialist-center.js", "./prepurchase-inspection.js", "./inspection-photo-evidence.js", "./service-history-enhancements.js", "./model-encyclopedia.js", "./model-ppi-guidance.js", "./owner-dashboard.js"]) {
+for (const asset of ["./index.html", "./manifest.json", "./specialist-center.js", "./prepurchase-inspection.js", "./inspection-photo-evidence.js", "./service-history-enhancements.js", "./model-encyclopedia.js", "./model-ppi-guidance.js", "./owner-dashboard.js", "./maintenance-reference-register.js"]) {
   assert.ok(sw.includes("'" + asset + "'"), "service worker must cache " + asset);
 }
 assert.match(specialist, /cavallino_specialist_center_v1/, "Specialist Center must use its isolated storage key");

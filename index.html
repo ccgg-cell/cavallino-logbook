@@ -192,6 +192,7 @@ footer{text-align:center;padding:24px;color:var(--ink-dim);font-size:11px;border
     <button class="tab" data-view="provenance">📄 Provenance</button>
     <button class="tab" data-view="specialist">🔧 Specialist Center</button>
     <button class="tab" data-view="prepurchase">🔍 Pre-Purchase</button>
+    <button class="tab" data-view="reference">📚 Reference Register</button>
   </div>
 
   <!-- GARAGE VIEW -->
@@ -220,6 +221,7 @@ footer{text-align:center;padding:24px;color:var(--ink-dim);font-size:11px;border
 
   <div class="view" id="view-specialist"><div id="specialistCenterContent"></div></div>
   <div class="view" id="view-prepurchase"><div id="prePurchaseContent"></div></div>
+  <div class="view" id="view-reference"><div id="referenceRegisterContent"></div></div>
 
   <footer>Cavallino Logbook — your data is stored privately on this device. Not affiliated with any automobile manufacturer.</footer>
 </div>
@@ -724,7 +726,7 @@ document.querySelectorAll('.overlay').forEach(o=>{
 });
 
 /* ====== INIT ====== */
-function renderAll(){renderHeader();renderGarage();renderSchedule();renderLedger();renderProvenance();if(window.renderSpecialistCenter)window.renderSpecialistCenter();if(window.renderPrePurchaseInspection)window.renderPrePurchaseInspection();}
+function renderAll(){renderHeader();renderGarage();renderSchedule();renderLedger();renderProvenance();if(window.renderSpecialistCenter)window.renderSpecialistCenter();if(window.renderPrePurchaseInspection)window.renderPrePurchaseInspection();if(window.renderReferenceRegister)window.renderReferenceRegister();}
 renderAll();
 </script>
 <script src="prepurchase-inspection.js"></script>
@@ -733,5 +735,6 @@ renderAll();
 <script src="model-encyclopedia.js"></script>
 <script src="model-ppi-guidance.js"></script>
 <script src="owner-dashboard.js"></script>
+<script src="maintenance-reference-register.js"></script>
 </body>
 </html>
