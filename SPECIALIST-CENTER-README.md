@@ -94,3 +94,10 @@ The PPI workspace can use the Model Encyclopedia to display identification check
 ## Owner Dashboard
 
 The Garage view includes a read-only dashboard for the selected vehicle. It summarizes entered service records, recorded service spend, owner-defined reminders and the count of saved inspection reports and Specialist Center notes. Figures reflect only data stored in the current browser and are not an independent valuation, service assessment or cloud-synced record.
+
+
+## Maintenance & Evidence Register
+
+A dedicated Reference Register tab stores structured, browser-local entries for factory maintenance requirements, manufacturer campaigns/recalls, government safety recalls, independent specialist recommendations, known-issue research and owner observations. Each entry can record model/year/market/variant, VIN or build applicability, system, source class/title/URL, publication and checked dates, reviewer, verification status, summary and limitations. Entries can be searched, filtered, edited, deleted, exported to JSON and safely merged from a validated JSON backup. Data is stored under the isolated key `cavallino_reference_register_v1` and does not modify Garage or service-history records.
+
+The register is intentionally blank on first use: it does not invent factory intervals or seed technical requirements without exact source evidence. It links to Ferrari TechInfo, Ferrari's VIN campaign checker and NHTSA. NHTSA's VIN lookup has stated coverage limits and does not establish completed recall or all manufacturer-campaign history. A status of verified is a user-recorded review state, not an independent certification. Always verify the individual VIN, model year, market and variant; safety-critical work requires a qualified Ferrari specialist.
