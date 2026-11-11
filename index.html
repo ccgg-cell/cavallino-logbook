@@ -674,7 +674,7 @@ async function refreshProAccess(){
       toast('Your Pro subscription is active. Welcome!');
     }
     const token=getBillingToken();
-    if(!token){state.pro=false;renderProvenance();return;}
+    if(!token){state.pro=false;renderProvenance();if(params.has('checkout'))history.replaceState(null,'',window.location.pathname+window.location.hash);if(params.get('checkout')==='cancelled')toast('Checkout was cancelled. No payment was taken.');return;}
     const status=await billingRequest('subscription-status',{token});
     if(status.token)setBillingToken(status.token);
     state.pro=!!status.active;
@@ -800,6 +800,9 @@ window.CavallinoApp = {getState:()=>state,getSelectedId:()=>selectedId};
 /* ====== INIT ====== */
 function renderAll(){renderHeader();renderGarage();renderSchedule();renderLedger();renderProvenance();if(window.renderWorkshopReport)window.renderWorkshopReport();if(window.renderSpecialistCenter)window.renderSpecialistCenter();if(window.renderPrePurchaseInspection)window.renderPrePurchaseInspection();if(window.renderReferenceRegister)window.renderReferenceRegister();}
 renderAll();
+const initialView=new URLSearchParams(window.location.search).get('view');
+if(initialView && document.getElementById('view-'+initialView))showTab(initialView);
+refreshProAccess();
 </script>
 <script src="prepurchase-inspection.js"></script>
 <script src="inspection-photo-evidence.js"></script>
