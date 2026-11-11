@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#191714">
+<title>How to Use Cavallino Logbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#EDE6D6;--muted:#A79D8D;--bg:#191714;--surface:#221F1B;--surface2:#2A261F;--line:#3B3530;--gold:#B08D57;--red:#8C2A30}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:'Source Sans 3',sans-serif;line-height:1.65}
+.wrap{max-width:980px;margin:auto;padding:28px 22px 70px}
+header{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;padding-bottom:22px;border-bottom:1px solid var(--line)}
+.brand{display:flex;gap:14px;align-items:center}.crest{width:42px;height:50px;border:1px solid var(--gold);display:grid;place-items:center;color:var(--gold);font-family:serif;font-size:23px}
+h1,h2,h3{font-family:'Fraunces',serif;font-weight:500}h1{font-size:clamp(28px,5vw,42px);margin:0}.eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+header p{margin:2px 0 0;color:var(--muted);font-size:13px}
+.btn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;padding:11px 18px;border:1px solid var(--gold);color:#171410;background:var(--gold);font-weight:600;letter-spacing:.05em;text-transform:uppercase;font-size:12px;border-radius:3px}
+.btn.secondary{background:transparent;color:var(--ink);border-color:var(--line)}
+.hero{padding:48px 0 30px;max-width:760px}.hero h2{font-size:clamp(26px,4vw,36px);line-height:1.18;margin:10px 0}.hero p{color:var(--muted);font-size:17px}
+.toc{display:flex;flex-wrap:wrap;gap:9px;margin:22px 0 34px}.toc a{color:var(--ink);text-decoration:none;border:1px solid var(--line);padding:7px 11px;font-size:13px}.toc a:hover{border-color:var(--gold);color:var(--gold)}
+section{background:var(--surface);border:1px solid var(--line);padding:24px;margin:16px 0;scroll-margin-top:20px}
+.section-head{display:flex;gap:14px;align-items:flex-start}.num{color:var(--gold);font-family:'Fraunces',serif;font-size:26px;line-height:1.2}.section-head h3{font-size:22px;margin:0}.section-head p{color:var(--muted);margin:4px 0 0}
+ul,ol{padding-left:22px}li{padding:3px 0}strong{color:#F2E8D6}.tip{border-left:2px solid var(--gold);padding:10px 14px;background:var(--surface2);color:var(--muted);margin-top:16px;font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:16px}.mini{background:var(--surface2);padding:15px;border:1px solid var(--line)}.mini h4{font-family:'Fraunces',serif;font-size:17px;font-weight:500;margin:0 0 5px}.mini p{color:var(--muted);font-size:14px;margin:0}
+footer{border-top:1px solid var(--line);padding-top:22px;margin-top:35px;color:var(--muted);font-size:13px}
+@media(max-width:600px){.wrap{padding:18px 14px 50px}section{padding:18px}.hero{padding-top:34px}header .btn{width:100%}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="brand"><div class="crest">C</div><div><div class="eyebrow">Owner's guide</div><h1>Cavallino Logbook</h1><p>Service, maintenance &amp; provenance — explained.</p></div></div>
+  <a class="btn" href="index.html">← Return to the App</a>
+</header>
+<main>
+<div class="hero">
+  <div class="eyebrow">Getting started</div>
+  <h2>A considered approach to caring for your car.</h2>
+  <p>This guide walks you through the main areas of Cavallino Logbook. Use it as a quick reference while you organize your garage, record work and preserve the story of each vehicle.</p>
+  <a class="btn" href="index.html">Open Cavallino Logbook</a>
+</div>
+<nav class="toc" aria-label="Guide sections">
+  <a href="#garage">Garage</a><a href="#schedule">Maintenance</a><a href="#service-log">Service Log</a><a href="#provenance">Provenance</a><a href="#specialist">Specialist Center</a><a href="#inspection">Pre-Purchase</a><a href="#reference">Reference Register</a><a href="#reports">Workshop Reports</a><a href="#data">Your data</a>
+</nav>
+<section id="garage">
+ <div class="section-head"><div class="num">01</div><div><h3>Your Garage</h3><p>Start by adding the vehicles you want to keep records for.</p></div></div>
+ <ol><li>Open the <strong>Garage</strong> tab.</li><li>Select <strong>+ Add a Car</strong>.</li><li>Enter the vehicle details requested in the form, such as its make, model, year and mileage.</li><li>Save the vehicle. Select its card whenever you want to work with that car's records.</li></ol>
+ <div class="tip">Tip: Use consistent vehicle details and update the mileage whenever you record new work.</div>
+</section>
+<section id="schedule">
+ <div class="section-head"><div class="num">02</div><div><h3>Maintenance Schedule</h3><p>Keep upcoming and completed maintenance in view.</p></div></div>
+ <ol><li>Open <strong>Schedule</strong>.</li><li>Review the maintenance items and their status.</li><li>Add or update maintenance information using the controls provided in the app.</li><li>After work is completed, record the service in the Service Log as well, so the history remains documented.</li></ol>
+ <div class="tip">Maintenance guidance is a planning aid. Always follow the correct factory service information for your exact model and vehicle specification.</div>
+</section>
+<section id="service-log">
+ <div class="section-head"><div class="num">03</div><div><h3>Service Log</h3><p>Build a clear record of the work carried out on your vehicle.</p></div></div>
+ <ol><li>Open <strong>Service Log</strong>.</li><li>Add a record for each service, repair or inspection.</li><li>Enter the date, mileage, work performed, provider and cost where available.</li><li>Use the notes area to capture useful details, including parts or follow-up recommendations.</li></ol>
+ <div class="tip">Keep invoices and supporting documents. A log entry is most useful when it can be matched to original evidence.</div>
+</section>
+<section id="provenance">
+ <div class="section-head"><div class="num">04</div><div><h3>Provenance</h3><p>Preserve the ownership story and supporting details.</p></div></div>
+ <ol><li>Open <strong>Provenance</strong> for the selected vehicle.</li><li>Review the provenance fields and complete the information you can substantiate.</li><li>Keep supporting records such as ownership documents, historic invoices and other relevant evidence organized with your vehicle records.</li><li>Use the provenance report feature when you want to assemble the information into a presentation-ready record.</li></ol>
+ <div class="tip">Distinguish documented facts from owner notes or unverified history. Never present an unverified claim as authenticated provenance.</div>
+</section>
+<section id="specialist">
+ <div class="section-head"><div class="num">05</div><div><h3>Ferrari Specialist Knowledge Center</h3><p>Research model information, maintenance topics and known areas to investigate.</p></div></div>
+ <ol><li>Open <strong>Specialist Center</strong>.</li><li>Browse the model and topic information available.</li><li>Use it as a starting point when preparing questions for a qualified Ferrari specialist.</li><li>Confirm technical specifications, service intervals, campaigns and repair procedures against authoritative factory information for your exact vehicle.</li></ol>
+ <div class="tip">The Knowledge Center is an informational reference, not a substitute for factory workshop manuals, diagnostics or professional inspection.</div>
+</section>
+<section id="inspection">
+ <div class="section-head"><div class="num">06</div><div><h3>Pre-Purchase Inspection</h3><p>Bring structure to the evaluation of a car you are considering buying.</p></div></div>
+ <ol><li>Open <strong>Pre-Purchase</strong>.</li><li>Start an inspection record for the vehicle being evaluated.</li><li>Work through the available inspection categories and checklist items.</li><li>Capture observations and add photo evidence where the app provides that option.</li><li>Review open concerns with an independent marque specialist before making a purchase decision.</li></ol>
+ <div class="tip">A digital checklist helps organize observations; it does not certify a vehicle's condition or replace a hands-on inspection.</div>
+</section>
+<section id="reference">
+ <div class="section-head"><div class="num">07</div><div><h3>Reference Register</h3><p>Keep useful vehicle documents and reference information together.</p></div></div>
+ <ol><li>Open <strong>Reference Register</strong>.</li><li>Add the reference details requested by the app.</li><li>Use clear titles and notes so you can identify each item later.</li><li>Keep original documents in a secure location and use the register to help track them.</li></ol>
+</section>
+<section id="reports">
+ <div class="section-head"><div class="num">08</div><div><h3>Workshop Reports</h3><p>Prepare a structured summary of vehicle work and findings.</p></div></div>
+ <ol><li>Open <strong>Workshop Report</strong>.</li><li>Choose or confirm the vehicle details.</li><li>Complete the available report fields with clear, factual information.</li><li>Review the report carefully before using the print or export option provided in the app.</li></ol>
+ <div class="tip">Check dates, mileage, costs and spelling before sharing a report with a buyer, workshop or insurer.</div>
+</section>
+<section id="data">
+ <div class="section-head"><div class="num">09</div><div><h3>Your records &amp; privacy</h3><p>Understand where your logbook information is kept.</p></div></div>
+ <ul><li><strong>Device storage:</strong> Vehicle and logbook information is currently stored locally in the browser on the device you use.</li><li><strong>Backups:</strong> Use the app's backup/export tools where available and keep a copy somewhere secure. Periodically verify that your backup can be restored.</li><li><strong>Device changes:</strong> Clearing browser data, changing browsers or moving to another device can affect access to locally stored records. Export a backup before making changes.</li><li><strong>Subscriptions:</strong> Pro billing requires the separate Netlify and Stripe setup to be completed. Do not assume paid access is active until checkout and subscription verification have been tested.</li></ul>
+</section>
+<div class="hero" style="padding-bottom:0">
+ <h2>Keep every detail. Preserve every mile.</h2>
+ <p>Your logbook is only as valuable as the records you maintain. Make entries promptly, keep original evidence and review your vehicle information regularly.</p>
+ <a class="btn" href="index.html">Return to Cavallino Logbook</a>
+ <a class="btn secondary" href="#top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Back to top ↑</a>
+</div>
+</main>
+<footer>Cavallino Logbook — Owner's Guide. Not affiliated with Ferrari S.p.A. Always confirm technical information with official documentation and qualified specialists.</footer>
+</div>
+</body>
+</html>
