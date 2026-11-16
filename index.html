@@ -408,7 +408,7 @@ function renderGarage(){
   let html = state.cars.map(car=>{
     const st = carStatus(car);
     const pipClass = st==='danger'?'pip-danger':st==='warn'?'pip-warn':st==='unknown'?'pip-none':'pip-good';
-    return `<div class="car-card ${car.id===selectedId?'active-car':''}" onclick="selectCar('${esc(car.id)}')">
+    return `<div class="car-card ${car.id===selectedId?'active-car':''}" data-car-id="${esc(car.id)}">
       <div class="status-pip ${pipClass}" title="${st==='unknown'?'No verified maintenance schedule configured':'Schedule status'}"></div>
       <div class="car-badge">${esc(car.nick||'—')} ${car.vin?'· …'+esc(String(car.vin).slice(-6)):''}</div>
       <h3>${esc(car.year)} ${esc(car.model)}</h3>
@@ -419,6 +419,7 @@ function renderGarage(){
   }).join('');
   html += `<button class="add-car-btn" onclick="openAddCar()"><span class="plus">+</span><span>Add another car</span></button>`;
   grid.innerHTML = html;
+  grid.querySelectorAll('[data-car-id]').forEach(card=>card.addEventListener('click',()=>selectCar(card.dataset.carId)));
 }
 
 /* ====== RENDER SCHEDULE ====== */
@@ -491,7 +492,7 @@ function renderProvenance(){
     const v = orig[part]||'original';
     return `<div class="orig-item">
       <span>${esc(part)}</span>
-      <select onchange="setOrig('${esc(car.id)}','${esc(part)}',this.value)">
+      <select data-orig-car="${esc(car.id)}" data-orig-part="${esc(part)}">
         <option value="original" ${v==='original'?'selected':''}>Original</option>
         <option value="replaced" ${v==='replaced'?'selected':''}>Replaced (OEM)</option>
         <option value="aftermarket" ${v==='aftermarket'?'selected':''}>Aftermarket</option>
@@ -507,6 +508,7 @@ function renderProvenance(){
     </div>
     <div class="orig-grid">${grid}</div>
   </div>`;
+  el.querySelectorAll('[data-orig-car]').forEach(select=>select.addEventListener('change',()=>setOrig(select.dataset.origCar,select.dataset.origPart,select.value)));
 }
 
 /* ====== PDF EXPORT ====== */
