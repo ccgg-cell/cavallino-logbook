@@ -408,16 +408,16 @@ function renderGarage(){
   let html = state.cars.map(car=>{
     const st = carStatus(car);
     const pipClass = st==='danger'?'pip-danger':st==='warn'?'pip-warn':st==='unknown'?'pip-none':'pip-good';
-    return \`<div class="car-card \${car.id===selectedId?'active-car':''}" onclick="selectCar('\${esc(car.id)}')">
-      <div class="status-pip \${pipClass}" title="\${st==='unknown'?'No verified maintenance schedule configured':'Schedule status'}"></div>
-      <div class="car-badge">\${esc(car.nick||'—')} \${car.vin?'· …'+esc(String(car.vin).slice(-6)):''}</div>
-      <h3>\${esc(car.year)} \${esc(car.model)}</h3>
+    return `<div class="car-card ${car.id===selectedId?'active-car':''}" onclick="selectCar('${esc(car.id)}')">
+      <div class="status-pip ${pipClass}" title="${st==='unknown'?'No verified maintenance schedule configured':'Schedule status'}"></div>
+      <div class="car-badge">${esc(car.nick||'—')} ${car.vin?'· …'+esc(String(car.vin).slice(-6)):''}</div>
+      <h3>${esc(car.year)} ${esc(car.model)}</h3>
       <div class="car-sub">Vehicle-specific schedule not configured</div>
-      <div class="car-mileage">\${fmt(car.mileage)} mi</div>
-      <div class="car-entries">\${(car.services||[]).length} service record\${(car.services||[]).length===1?'':'s'}</div>
-    </div>\`;
+      <div class="car-mileage">${fmt(car.mileage)} mi</div>
+      <div class="car-entries">${(car.services||[]).length} service record${(car.services||[]).length===1?'':'s'}</div>
+    </div>`;
   }).join('');
-  html += \`<button class="add-car-btn" onclick="openAddCar()"><span class="plus">+</span><span>Add another car</span></button>\`;
+  html += `<button class="add-car-btn" onclick="openAddCar()"><span class="plus">+</span><span>Add another car</span></button>`;
   grid.innerHTML = html;
 }
 
@@ -426,9 +426,9 @@ function renderSchedule(){
   const el = document.getElementById('scheduleContent');
   const car = getCar(selectedId);
   if(!car){el.innerHTML=emptyState('Select a car first','Go to the Garage tab and click a car.');return;}
-  el.innerHTML=\`<div class="panel">
+  el.innerHTML=`<div class="panel">
     <div class="panel-top">
-      <div><h2>\${esc(car.year)} \${esc(car.model)} — Maintenance Schedule</h2><div class="panel-meta">No vehicle-specific schedule has been configured</div></div>
+      <div><h2>${esc(car.year)} ${esc(car.model)} — Maintenance Schedule</h2><div class="panel-meta">No vehicle-specific schedule has been configured</div></div>
       <button class="btn btn-primary btn-sm" onclick="openAddSvc()">+ Log Service</button>
     </div>
     <div class="sc-notice"><strong>No generic intervals are shown.</strong> Previous era-based templates could not reliably account for the exact model, model year, market, variant or VIN. Use the Warranty Booklet and current Ferrari documentation supplied for this vehicle. Independent recommendations must be labeled separately and supported by a source. A reference entry does not automatically create a due-date calculation.</div>
@@ -436,7 +436,7 @@ function renderSchedule(){
       <button class="btn btn-ghost btn-sm" onclick="showTab('reference')">Open Reference Register</button>
       <button class="btn btn-ghost btn-sm" onclick="showTab('specialist')">Open Specialist Center</button>
     </div>
-  </div>\`;
+  </div>`;
 }
 
 /* ====== RENDER LEDGER ====== */
@@ -445,27 +445,27 @@ function renderLedger(){
   const car = getCar(selectedId);
   if(!car){el.innerHTML=emptyState('Select a car first','Go to the Garage tab and click a car.');return;}
   const entries = [...(car.services||[])].sort((a,b)=>new Date(b.date)-new Date(a.date));
-  const rows = entries.length ? entries.map(e=>\`<tr>
-    <td class="mono" style="white-space:nowrap">\${esc(e.date||'—')}</td>
-    <td class="td-odo">\${fmt(e.odo)}</td>
-    <td>\${esc(e.type)}\${e.notes?\`<div class="td-note">\${esc(e.notes)}</div>\`:''}</td>
-    <td>\${esc(e.shop||'—')}</td>
-    <td class="td-cost">\${fmtCost(e.cost)}</td>
-  </tr>\`).join('') : \`<tr class="empty-row"><td colspan="5">No entries yet. Click "+ Log Service" to start.</td></tr>\`;
+  const rows = entries.length ? entries.map(e=>`<tr>
+    <td class="mono" style="white-space:nowrap">${esc(e.date||'—')}</td>
+    <td class="td-odo">${fmt(e.odo)}</td>
+    <td>${esc(e.type)}${e.notes?`<div class="td-note">${esc(e.notes)}</div>`:''}</td>
+    <td>${esc(e.shop||'—')}</td>
+    <td class="td-cost">${fmtCost(e.cost)}</td>
+  </tr>`).join('') : `<tr class="empty-row"><td colspan="5">No entries yet. Click "+ Log Service" to start.</td></tr>`;
 
   const total = entries.reduce((s,e)=>s+Number(e.cost||0),0);
-  el.innerHTML=\`<div class="panel">
+  el.innerHTML=`<div class="panel">
     <div class="panel-top">
-      <div><h2>\${esc(car.year)} \${esc(car.model)} — Service Log</h2><div class="panel-meta">\${entries.length} entr\${entries.length===1?'y':'ies'} · \${fmtCost(total)} total documented spend</div></div>
+      <div><h2>${esc(car.year)} ${esc(car.model)} — Service Log</h2><div class="panel-meta">${entries.length} entr${entries.length===1?'y':'ies'} · ${fmtCost(total)} total documented spend</div></div>
       <button class="btn btn-brass btn-sm" onclick="openAddSvc()">+ Log Service</button>
     </div>
     <div class="ledger-wrap">
       <table class="ledger">
         <thead><tr><th>Date</th><th>Odometer</th><th>Service</th><th>Shop</th><th style="text-align:right">Cost</th></tr></thead>
-        <tbody>\${rows}</tbody>
+        <tbody>${rows}</tbody>
       </table>
     </div>
-  </div>\`;
+  </div>`;
 }
 
 /* ====== RENDER PROVENANCE ====== */
