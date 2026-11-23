@@ -40,9 +40,9 @@
       id:"360", name:"360 Modena / Spider", era:"1999–2005", layout:"Mid-engine V8 · aluminium spaceframe",
       variants:"360 Modena coupe; 360 Spider; Challenge Stradale special series. Modena and Spider offered six-speed gated manual or F1 automated manual; Challenge Stradale was F1-only.",
       identity:"Confirm Modena/Spider/Challenge Stradale, manual versus F1, market and build/VIN details. Check factory campaign status independently; a printed VIN or engine range is only a screening clue.",
-      focus:"Verify belt-service scope and records; inspect F1 clutch/hydraulic operation where fitted; check suspension ball joints; request Ferrari confirmation of applicable camshaft-variator campaign history.",
-      noteIds:["360-001","360-002","360-003"], history:"https://fullysorted.com/research/models/ferrari/360",
-      sources:[["Ferrari model history and buyer research","https://fullysorted.com/research/models/ferrari/360"],["evo 360 history and buying guide","https://www.evo.co.uk/ferrari/360/19057/ferrari-360-modena-history-specs-and-buying-guide"],["Ferrari TechInfo and campaign portal","https://techinfo.ferrari.com/recall"]]
+      focus:"Verify belt-service scope and records; inspect F1 clutch/hydraulic operation where fitted; check suspension ball joints. For Ferrari North America TI 1232 / Service Campaign 97, use engine numbers below 60796 and the bulletin’s printed serial/VIN range 114015–123399 only as screening clues. Obtain written Ferrari dealer-system confirmation of eligibility and completion; compare the invoice for both updated exhaust variators and the specified later tensioner/fasteners. A punched “VD” cylinder-head mark is supporting evidence only, not proof by itself. Confirm current part supersessions and applicability with Ferrari.",
+      noteIds:["360-001","360-002","360-003","360-004"], history:"https://fullysorted.com/research/models/ferrari/360",
+      sources:[["Ferrari model history and buyer research","https://fullysorted.com/research/models/ferrari/360"],["evo 360 history and buying guide","https://www.evo.co.uk/ferrari/360/19057/ferrari-360-modena-history-specs-and-buying-guide"],["Ferrari TechInfo and campaign portal","https://techinfo.ferrari.com/recall"],["Ferrari North America TI 1232 / Campaign 97 (June 2004)","https://ricambiamerica.wordpress.com/wp-content/uploads/2016/01/tsb1232_variator1.pdf"]]
     },
     {
       id:"f430", name:"F430", era:"2004–2009", layout:"Mid-engine V8 · aluminium spaceframe · E-Diff",
